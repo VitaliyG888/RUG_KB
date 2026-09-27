@@ -1,0 +1,23 @@
+# Core
+pydantic>=2
+python-dotenv>=1.0
+requests>=2.31
+
+# PostgreSQL + pgvector
+psycopg2-binary>=2.9
+
+# LLM / embeddings (OpenAI-compatible client; works with local endpoints too)
+openai>=1.40
+
+# Telegram bot
+aiogram>=3.7
+
+# Text extraction (upload ingestion)
+pymupdf>=1.24
+
+# Token estimation (optional; falls back to heuristic if unavailable)
+tiktoken>=0.7
+
+# Web search (keyless default provider)
+beautifulsoup4>=4.12
+lxml>=5.0

@@ -1,0 +1,1597 @@
+<!DOCTYPE html><!-- saved from url=(0041)https://xakep.ru/2020/07/08/asm-course-3/ --><html lang="ru-RU" prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# profile: http://ogp.me/ns/profile# fb: http://ogp.me/ns/fb#" class="webkit chrome chrome98 win js no-touch csstransforms csstransforms3d csstransitions svg orientation_landscape minw_1200 maxw_9999 no-hidpi ua-windows_nt ua-windows_nt-10 ua-windows_nt-10-0 ua-chrome ua-chrome-98 ua-chrome-98-0 ua-chrome-98-0-4758 ua-chrome-98-0-4758-102 ua-desktop ua-desktop-windows ua-webkit ua-webkit-537 ua-webkit-537-36 js datauri tablesaw-enhanced"><head><script async="" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/analytics.js.Без названия"></script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+<link rel="profile" href="http://gmpg.org/xfn/11">
+<link rel="pingback" href="https://xakep.ru/xmlrpc.php">
+<title>Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»</title>
+<meta name="robots" content="max-image-preview:large">
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="alternate" type="application/rss+xml" title="«Хакер» » Лента" href="https://xakep.ru/feed/">
+<link rel="alternate" type="application/rss+xml" title="«Хакер» » Лента комментариев" href="https://xakep.ru/comments/feed/">
+<link rel="alternate" type="application/rss+xml" title="«Хакер» » Лента комментариев к «Погружение в ассемблер. Осваиваем арифметические инструкции»" href="https://xakep.ru/2020/07/08/asm-course-3/feed/">
+  <script src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/es5-shims.min.js.Без названия"></script>
+  
+<script async="async" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/gpt.js.Без названия"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/92401962/xa_mpu-0', [[240, 400], [300, 500]], 'div-gpt-ad-1529280069303-0').addService(googletag.pubads());
+    googletag.defineSlot('/92401962/xa_mpu-1', [240, 400], 'div-gpt-ad-1585167363824-0').addService(googletag.pubads());
+    googletag.defineSlot('/92401962/xa_infinite-scroll-0', [900, 300], 'div-gpt-ad-1536750214101-0').addService(googletag.pubads());
+    googletag.defineSlot('/92401962/xa_leaderboard0', [728, 90], 'div-gpt-ad-1537366071742-0').addService(googletag.pubads());
+
+    googletag.pubads().enableSingleRequest();
+    googletag.pubads().collapseEmptyDivs();
+    googletag.enableServices();
+  });
+</script>
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/xakep.ru\/wp-includes\/js\/wp-emoji-release.min.js"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/wp-emoji-release.min.js.Без названия" type="text/javascript" defer=""></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<link rel="stylesheet" id="wp-block-library-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/style.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="foobox-free-min-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/foobox.free.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-polls-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/polls-css.css" type="text/css" media="all">
+<style id="wp-polls-inline-css" type="text/css">
+.wp-polls .pollbar {
+	margin: 1px;
+	font-size: 6px;
+	line-height: 8px;
+	height: 8px;
+	background: #dd2200;
+	border: 1px solid #dd2200;
+}
+
+</style>
+<link rel="stylesheet" id="wpdiscuz-frontend-css-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/style.css" type="text/css" media="all">
+<style id="wpdiscuz-frontend-css-inline-css" type="text/css">
+ #wpdcom .wpd-blog-administrator .wpd-comment-label{color:#ffffff;background-color:#0f0000;border:none}#wpdcom .wpd-blog-administrator .wpd-comment-author, #wpdcom .wpd-blog-administrator .wpd-comment-author a{color:#0f0000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-color:#0f0000}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-administrator{border-left:3px solid #0f0000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-administrator .wpd-avatar img{border-bottom-color:#0f0000}#wpdcom.wpd-layout-3 .wpd-blog-administrator .wpd-comment-subheader{border-top:1px dashed #0f0000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-administrator .wpd-comment-right{border-left:1px solid #0f0000}#wpdcom .wpd-blog-author .wpd-comment-label{color:#ffffff;background-color:#d20000;border:none}#wpdcom .wpd-blog-author .wpd-comment-author, #wpdcom .wpd-blog-author .wpd-comment-author a{color:#d20000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-author .wpd-avatar img{border-color:#d20000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-author .wpd-avatar img{border-bottom-color:#d20000}#wpdcom.wpd-layout-3 .wpd-blog-author .wpd-comment-subheader{border-top:1px dashed #d20000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-author .wpd-comment-right{border-left:1px solid #d20000}#wpdcom .wpd-blog-contributor .wpd-comment-label{color:#ffffff;background-color:#d20000;border:none}#wpdcom .wpd-blog-contributor .wpd-comment-author, #wpdcom .wpd-blog-contributor .wpd-comment-author a{color:#d20000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-color:#d20000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-contributor .wpd-avatar img{border-bottom-color:#d20000}#wpdcom.wpd-layout-3 .wpd-blog-contributor .wpd-comment-subheader{border-top:1px dashed #d20000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-contributor .wpd-comment-right{border-left:1px solid #d20000}#wpdcom .wpd-blog-editor .wpd-comment-label{color:#ffffff;background-color:#0f0101;border:none}#wpdcom .wpd-blog-editor .wpd-comment-author, #wpdcom .wpd-blog-editor .wpd-comment-author a{color:#0f0101}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-color:#0f0101}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-editor{border-left:3px solid #0f0101}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-editor .wpd-avatar img{border-bottom-color:#0f0101}#wpdcom.wpd-layout-3 .wpd-blog-editor .wpd-comment-subheader{border-top:1px dashed #0f0101}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-editor .wpd-comment-right{border-left:1px solid #0f0101}#wpdcom .wpd-blog-subscriber .wpd-comment-label{color:#ffffff;background-color:#d20000;border:none}#wpdcom .wpd-blog-subscriber .wpd-comment-author, #wpdcom .wpd-blog-subscriber .wpd-comment-author a{color:#d20000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-subscriber .wpd-avatar img{border-bottom-color:#d20000}#wpdcom.wpd-layout-3 .wpd-blog-subscriber .wpd-comment-subheader{border-top:1px dashed #d20000}#wpdcom .wpd-blog-newsmaker .wpd-comment-label{color:#ffffff;background-color:#d20000;border:none}#wpdcom .wpd-blog-newsmaker .wpd-comment-author, #wpdcom .wpd-blog-newsmaker .wpd-comment-author a{color:#d20000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-newsmaker .wpd-avatar img{border-color:#d20000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-newsmaker .wpd-avatar img{border-bottom-color:#d20000}#wpdcom.wpd-layout-3 .wpd-blog-newsmaker .wpd-comment-subheader{border-top:1px dashed #d20000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-newsmaker .wpd-comment-right{border-left:1px solid #d20000}#wpdcom .wpd-blog-translator .wpd-comment-label{color:#ffffff;background-color:#d20000;border:none}#wpdcom .wpd-blog-translator .wpd-comment-author, #wpdcom .wpd-blog-translator .wpd-comment-author a{color:#d20000}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-translator .wpd-avatar img{border-color:#d20000}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-translator .wpd-avatar img{border-bottom-color:#d20000}#wpdcom.wpd-layout-3 .wpd-blog-translator .wpd-comment-subheader{border-top:1px dashed #d20000}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-translator .wpd-comment-right{border-left:1px solid #d20000}#wpdcom .wpd-blog-post_author .wpd-comment-label{color:#ffffff;background-color:#dd9933;border:none}#wpdcom .wpd-blog-post_author .wpd-comment-author, #wpdcom .wpd-blog-post_author .wpd-comment-author a{color:#dd9933}#wpdcom .wpd-blog-post_author .wpd-avatar img{border-color:#dd9933}#wpdcom.wpd-layout-1 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-color:#dd9933}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply .wpd-comment-wrap.wpd-blog-post_author{border-left:3px solid #dd9933}#wpdcom.wpd-layout-2 .wpd-comment .wpd-blog-post_author .wpd-avatar img{border-bottom-color:#dd9933}#wpdcom.wpd-layout-3 .wpd-blog-post_author .wpd-comment-subheader{border-top:1px dashed #dd9933}#wpdcom.wpd-layout-3 .wpd-reply .wpd-blog-post_author .wpd-comment-right{border-left:1px solid #dd9933}#wpdcom .wpd-blog-guest .wpd-comment-label{color:#ffffff;background-color:#d20000;border:none}#wpdcom .wpd-blog-guest .wpd-comment-author, #wpdcom .wpd-blog-guest .wpd-comment-author a{color:#d20000}#wpdcom.wpd-layout-3 .wpd-blog-guest .wpd-comment-subheader{border-top:1px dashed #d20000}#comments, #respond, .comments-area, #wpdcom{}#wpdcom .ql-editor > *{color:#777777}#wpdcom .ql-editor::before{}#wpdcom .ql-toolbar{border:1px solid #DDDDDD;border-top:none}#wpdcom .ql-container{border:1px solid #DDDDDD;border-bottom:none}#wpdcom .wpd-form-row .wpdiscuz-item input[type="text"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="email"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="url"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="color"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="date"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="datetime"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="datetime-local"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="month"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="number"], #wpdcom .wpd-form-row .wpdiscuz-item input[type="time"], #wpdcom textarea, #wpdcom select{border:1px solid #DDDDDD;color:#777777}#wpdcom .wpd-form-row .wpdiscuz-item textarea{border:1px solid #DDDDDD}#wpdcom input::placeholder, #wpdcom textarea::placeholder, #wpdcom input::-moz-placeholder, #wpdcom textarea::-webkit-input-placeholder{}#wpdcom .wpd-comment-text{color:#777777}#wpdcom .wpd-thread-head .wpd-thread-info{border-bottom:2px solid #d20000}#wpdcom .wpd-thread-head .wpd-thread-info.wpd-reviews-tab svg{fill:#d20000}#wpdcom .wpd-thread-head .wpdiscuz-user-settings{border-bottom:2px solid #d20000}#wpdcom .wpd-thread-head .wpdiscuz-user-settings:hover{color:#d20000}#wpdcom .wpd-comment .wpd-follow-link:hover{color:#d20000}#wpdcom .wpd-comment-status .wpd-sticky{color:#d20000}#wpdcom .wpd-thread-filter .wpdf-active{color:#d20000;border-bottom-color:#d20000}#wpdcom .wpd-comment-info-bar{border:1px dashed #db3333;background:#fbe6e6}#wpdcom .wpd-comment-info-bar .wpd-current-view i{color:#d20000}#wpdcom .wpd-filter-view-all:hover{background:#d20000}#wpdcom .wpdiscuz-item .wpdiscuz-rating > label{color:#DDDDDD}#wpdcom .wpdiscuz-item .wpdiscuz-rating:not(:checked) > label:hover, .wpdiscuz-rating:not(:checked) > label:hover ~ label{}#wpdcom .wpdiscuz-item .wpdiscuz-rating > input ~ label:hover, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:not(:checked) ~ label:hover ~ label, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:not(:checked) ~ label:hover ~ label{color:#FFED85}#wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover, #wpdcom .wpdiscuz-item .wpdiscuz-rating > label:hover ~ input:checked ~ label, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked + label:hover ~ label, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label:hover ~ label, .wpd-custom-field .wcf-active-star, #wpdcom .wpdiscuz-item .wpdiscuz-rating > input:checked ~ label{color:#FFD700}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#DDDDDD}#wpd-post-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:#FFD700}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts svg .wpd-star{fill:#DDDDDD}#wpd-post-rating .wpd-rating-wrap .wpd-rate-starts:hover svg .wpd-star{fill:#FFED85}#wpd-post-rating.wpd-not-rated .wpd-rating-wrap .wpd-rate-starts svg:hover ~ svg .wpd-star{fill:#DDDDDD}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-star{fill:#DDDDDD}.wpdiscuz-post-rating-wrap .wpd-rating .wpd-rating-wrap .wpd-rating-stars svg .wpd-active{fill:#FFD700}#wpdcom .wpd-comment .wpd-follow-active{color:#ff7a00}#wpdcom .page-numbers{color:#555;border:#555 1px solid}#wpdcom span.current{background:#555}#wpdcom.wpd-layout-1 .wpd-new-loaded-comment > .wpd-comment-wrap > .wpd-comment-right{background:#FFFAD6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment > .wpd-comment-wrap > .wpd-comment-right{background:#FFFAD6}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply > .wpd-comment-wrap > .wpd-comment-right{background:transparent}#wpdcom.wpd-layout-2 .wpd-new-loaded-comment.wpd-comment.wpd-reply > .wpd-comment-wrap{background:#FFFAD6}#wpdcom.wpd-layout-3 .wpd-new-loaded-comment.wpd-comment > .wpd-comment-wrap > .wpd-comment-right{background:#FFFAD6}#wpdcom .wpd-follow:hover i, #wpdcom .wpd-unfollow:hover i, #wpdcom .wpd-comment .wpd-follow-active:hover i{color:#d20000}#wpdcom .wpdiscuz-readmore{cursor:pointer;color:#d20000}.wpd-custom-field .wcf-pasiv-star, #wpcomm .wpdiscuz-item .wpdiscuz-rating > label{color:#DDDDDD}.wpd-wrapper .wpd-list-item.wpd-active{border-top:3px solid #d20000}#wpdcom.wpd-layout-2 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-wrap{border-left:3px solid #FFFAD6}#wpdcom.wpd-layout-3 .wpd-comment.wpd-reply.wpd-unapproved-comment .wpd-comment-right{border-left:1px solid #FFFAD6}#wpdcom .wpd-prim-button{background-color:#d20000;color:#FFFFFF}#wpdcom .wpd_label__check i.wpdicon-on{color:#d20000;border:1px solid #e98080}#wpd-bubble-wrapper #wpd-bubble-all-comments-count{color:#d20000}#wpd-bubble-wrapper > div{background-color:#d20000}#wpd-bubble-wrapper > #wpd-bubble #wpd-bubble-add-message{background-color:#d20000}#wpd-bubble-wrapper > #wpd-bubble #wpd-bubble-add-message::before{border-left-color:#d20000;border-right-color:#d20000}#wpd-bubble-wrapper.wpd-right-corner > #wpd-bubble #wpd-bubble-add-message::before{border-left-color:#d20000;border-right-color:#d20000}.wpd-inline-icon-wrapper path.wpd-inline-icon-first{fill:#d20000}.wpd-inline-icon-count{background-color:#d20000}.wpd-inline-icon-count::before{border-right-color:#d20000}.wpd-inline-form-wrapper::before{border-bottom-color:#d20000}.wpd-inline-form-question{background-color:#d20000}.wpd-inline-form{background-color:#d20000}.wpd-last-inline-comments-wrapper{border-color:#d20000}.wpd-last-inline-comments-wrapper::before{border-bottom-color:#d20000}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments{background:#d20000}.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:hover,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:active,.wpd-last-inline-comments-wrapper .wpd-view-all-inline-comments:focus{background-color:#d20000}#wpdcom .ql-snow .ql-tooltip[data-mode="link"]::before{content:"Введите ссылку:"}#wpdcom .ql-snow .ql-tooltip.ql-editing a.ql-action::after{content:"Сохранить"}.comments-area{width:auto}
+</style>
+<link rel="stylesheet" id="wpdiscuz-fa-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/fa.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="wpdiscuz-combo-css-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/wpdiscuz-combo.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="Roboto-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/css" type="text/css" media="all">
+<link rel="stylesheet" id="woohoo-default-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/style(1).css" type="text/css" media="all">
+<link rel="stylesheet" id="woohoo-main-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/main.css" type="text/css" media="all">
+<link rel="stylesheet" id="searchterm-highlighting-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/highlighting-styles.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="prettify-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/default.css" type="text/css" media="all">
+<link rel="stylesheet" id="xakep-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/style(2).css" type="text/css" media="all">
+<link rel="stylesheet" id="xakep-xmd-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/xmd.css" type="text/css" media="all">
+<link rel="stylesheet" id="xakep-banners-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/style(3).css" type="text/css" media="all">
+<link rel="stylesheet" id="xakep-ads-css-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/style(4).css" type="text/css" media="all">
+<script type="text/javascript" id="jquery-core-js-extra">
+/* <![CDATA[ */
+var bd_w_blocks = {"bdaia_w_ajax_url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","bdaia_w_ajax_nonce":"8977f03529"};
+var bd_blocks = {"bdaia_ajax_url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","bdaia_ajaxnonce":"8977f03529"};
+var bd_script = {"post_id":"312293","ajaxurl":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/jquery.min.js.Без названия" id="jquery-core-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/jquery-migrate.min.js.Без названия" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/script.js.Без названия" id="xakep-ads-js-js"></script>
+<script type="text/javascript" id="foobox-free-min-js-before">
+/* Run FooBox FREE (v2.7.16) */
+var FOOBOX = window.FOOBOX = {
+	ready: true,
+	disableOthers: false,
+	o: {wordpress: { enabled: true }, excludes:'.fbx-link,.nofoobox,.nolightbox,a[href*="pinterest.com/pin/create/button/"]', affiliate : { enabled: false }, error: "Could not load the item"},
+	selectors: [
+		".gallery", ".wp-block-gallery", ".wp-caption", ".wp-block-image", "a:has(img[class*=wp-image-])", ".foobox"
+	],
+	pre: function( $ ){
+		// Custom JavaScript (Pre)
+		
+	},
+	post: function( $ ){
+		// Custom JavaScript (Post)
+		
+		// Custom Captions Code
+		
+	},
+	custom: function( $ ){
+		// Custom Extra JS
+		
+	}
+};
+</script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/foobox.free.min.js.Без названия" id="foobox-free-min-js"></script>
+<link rel="https://api.w.org/" href="https://xakep.ru/wp-json/"><link rel="alternate" type="application/json" href="https://xakep.ru/wp-json/wp/v2/posts/312293"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://xakep.ru/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://xakep.ru/wp-includes/wlwmanifest.xml"> 
+<meta name="generator" content="WordPress 5.7.5">
+<link rel="canonical" href="https://xakep.ru/2020/07/08/asm-course-3/">
+<link rel="shortlink" href="https://xakep.ru/?p=312293">
+<link rel="alternate" type="application/json+oembed" href="https://xakep.ru/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxakep.ru%2F2020%2F07%2F08%2Fasm-course-3%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://xakep.ru/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fxakep.ru%2F2020%2F07%2F08%2Fasm-course-3%2F&amp;format=xml">
+    <script type="text/javascript">
+        function nxsPostToFav(obj){ obj.preventDefault;
+            var k = obj.target.split("-"); var nt = k[0]; var ii = k[1];  var pid = k[2];
+            var data = {  action:'nxs_snap_aj', nxsact: 'manPost', nt:nt, id: pid, nid: ii, et_load_builder_modules:1, _wpnonce: '6b749fa9f4'};
+            jQuery('#nxsFavNoticeCnt').html('<p> Posting... </p>'); jQuery('#nxsFavNotice').modal({ fadeDuration: 50 });
+            jQuery.post('https://xakep.ru/wp-admin/admin-ajax.php', data, function(response) { if (response=='') response = 'Message Posted';
+                jQuery('#nxsFavNoticeCnt').html('<p> ' + response + '</p>' +'<input type="button"  onclick="jQuery.modal.close();" class="bClose" value="Close" />');
+            });
+        }
+    </script><style type="text/css">
+    #wpadminbar .quicklinks {margin: 0 4px;}
+    #wpadminbar .quicklinks a {color: #aaa !important;}
+    #wpadminbar .quicklinks a strong {color: #fff; font-weight: bold;}
+    #wpadminbar .quicklinks li:hover>a,
+    #wpadminbar .quicklinks li a:hover,
+    #wpadminbar .quicklinks li a:focus {color: #fff !important; background-color: transparent !important;}
+    #wpadminbar .quicklinks #wp-admin-bar-bp-login,
+    #wpadminbar .quicklinks #wp-admin-bar-bp-register {display: none;}
+    #wpadminbar .quicklinks #wp-admin-bar-login,
+    #wpadminbar .quicklinks #wp-admin-bar-register {float: right;}
+    @media screen and (max-width: 782px){
+      #wpadminbar .quicklinks #wp-admin-bar-login,
+      #wpadminbar .quicklinks #wp-admin-bar-register {display: block; padding: 0 12px;}
+    }
+    @media print{
+      @page{size:16in 200in;margin:0}
+    }
+  </style>        <script type="text/javascript">
+            /* <![CDATA[ */
+            var sf_position = '0';
+            var sf_templates = "<a href=\"{search_url_escaped}\"><span class=\"sf_text\">\u041f\u043e\u0441\u043c\u043e\u0442\u0440\u0435\u0442\u044c \u0432\u0441\u0435 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b<\/span><\/a>";
+            var sf_input = '.search-live';
+            jQuery(document).ready(function(){if(typeof jQuery(sf_input).ajaxyLiveSearch === 'function'){
+                jQuery(sf_input).ajaxyLiveSearch({"expand":false,"searchUrl":"https:\/\/xakep.ru\/?s=%s","text":"Search","delay":500,"iwidth":180,"width":315,"ajaxUrl":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","rtl":0});
+                jQuery(".live-search_ajaxy-selective-input").keyup(function() {
+                    var width = jQuery(this).val().length * 8;
+                    if(width < 50) {
+                        width = 50;
+                    }
+                    jQuery(this).width(width);
+                });
+                jQuery(".live-search_ajaxy-selective-search").click(function() {
+                    jQuery(this).find(".live-search_ajaxy-selective-input").focus();
+                });
+                jQuery(".live-search_ajaxy-selective-close").click(function() {
+                    jQuery(this).parent().remove();
+                });
+            }});
+            /* ]]> */
+        </script>
+    <link rel="shortcut icon" href="https://xakep.ru/wp-content/uploads/2016/09/favicon.ico" type="image/x-icon">	<script type="text/javascript">
+		var bdaia_theme_uri = 'https://xakep.ru/wp-content/themes/woohoo';
+	</script>
+	<style type="text/css">
+.bdaia-post-content, .bdaia-post-content p, .bdaia-post-content h1, .bdaia-post-content h2, .bdaia-post-content h3, .bdaia-post-content h4, .bdaia-post-content h5, .bdaia-post-content h6, .bdaia-post-content blockquote p, blockquote p {color: 333333;}.bdaia-post-content a{color: #2283B3;}.bdaia-post-content a:hover{color: #3AA0E8;}body {}
+a:hover{color:#dd2200}
+::selection{background:#dd2200}
+a.more-link, button, .btn-link, input[type="button"], input[type="reset"], input[type="submit"] { background-color:#dd2200}
+button:active, .btn-link:active, input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active { background-color:#dd2200}
+.gotop:hover { background-color:#dd2200}
+.top-search { background-color:#dd2200}
+.primary-menu ul#menu-primary > li.current-menu-parent, .primary-menu ul#menu-primary > li.current-menu-ancestor, .primary-menu ul#menu-primary > li.current-menu-item, .primary-menu ul#menu-primary > li.current_page_item { color: #dd2200; }
+.primary-menu ul#menu-primary > li.current-menu-parent > a, .primary-menu ul#menu-primary > li.current-menu-ancestor > a, .primary-menu ul#menu-primary > li.current-menu-item > a, .primary-menu ul#menu-primary > li.current_page_item > a { color: #dd2200; }
+.primary-menu ul#menu-primary > li:hover > a { color: #dd2200; }
+.primary-menu ul#menu-primary li.bd_menu_item ul.sub-menu li:hover > ul.sub-menu, .primary-menu ul#menu-primary li.bd_mega_menu:hover > ul.bd_mega.sub-menu, .primary-menu ul#menu-primary li.bd_menu_item:hover > ul.sub-menu, .primary-menu ul#menu-primary .sub_cats_posts { border-top-color: #dd2200; }
+div.nav-menu.primary-menu-dark a.menu-trigger:hover i, div.nav-menu.primary-menu-light a.menu-trigger:hover i, div.nav-menu.primary-menu-light a.menu-trigger.active i, div.nav-menu.primary-menu-dark a.menu-trigger.active i { background: #dd2200; }
+span.bd-criteria-percentage { background: #dd2200; color: #dd2200; }
+.divider-colors { background: #dd2200; }
+.blog-v1 article .entry-meta a { color: #dd2200; }
+.blog-v1 article .article-formats { background-color: #dd2200; }
+.cat-links { background-color: #dd2200; }
+.new-box { border-top-color: #dd2200; }
+.widget a:hover { color: #dd2200; }
+.timeline-article a:hover i {
+    color: #dd2200;
+}
+h4.block-title:before {background: #dd2200;}
+#header.bdayh-header.a {background: #dd2200;}
+.bdaia-load-comments-btn a:hover,
+.bd-more-btn:hover{
+    border-color: #dd2200 ;
+    background-color: #dd2200 ;
+}
+#bdaia-cats-builder ul.slick-dots li.slick-active button{
+	background: #dd2200;
+}
+.bdaia-cats-more-btn,
+.bbd-post-cat-content, .bbd-post-cat-content a,
+.blog-v1 article a.more-link { color: #dd2200; }
+#big-grids .flex-next:hover,
+#big-grids .flex-prev:hover,
+.featured-title:hover .featured-cat a,
+.featured-title .featured-comment a,
+.big-grids-container .flex-control-paging li a.flex-active,
+.tagcloud a:hover { background: #dd2200; }
+.featured-title:hover .bd-cat-link:before {border-top-color: #dd2200;}
+.featured-title .featured-comment a:after {
+    border-color: #dd2200 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+}
+ul.tabs_nav li.active a { background: #dd2200; }
+.bd-tweets ul.tweet_list li.twitter-item a { color: #dd2200; }
+.widget.bd-login .login_user .bio-author-desc a { color: #dd2200; }
+.comment-reply-link, .comment-reply-link:link, .comment-reply-link:active { color: #dd2200; }
+.gallery-caption { background-color: #dd2200; }
+.slider-flex ol.flex-control-paging li a.flex-active { background: #dd2200; }
+#folio-main ul#filters li a.selected { background: #dd2200; }
+.search-mobile button.search-button { background: #dd2200; }
+.bdaia-pagination .current {
+background-color: #dd2200;
+border-color: #dd2200;
+}
+.gotop{background: #dd2200;}
+.ei-slider-thumbs li.ei-slider-element {background: #dd2200;}
+.ei-title h2,
+.ei-title h3 {border-right-color: #dd2200;}
+.sk-circle .sk-child:before,
+#reading-position-indicator{background: #dd2200;}
+#bdCheckAlso{border-top-color: #dd2200;}
+.woocommerce .product .onsale, .woocommerce .product a.button:hover, .woocommerce .product #respond input#submit:hover, .woocommerce .checkout input#place_order:hover, .woocommerce .woocommerce.widget .button:hover, .single-product .product .summary .cart .button:hover, .woocommerce-cart .woocommerce table.cart .button:hover, .woocommerce-cart .woocommerce .shipping-calculator-form .button:hover, .woocommerce .woocommerce-message .button:hover, .woocommerce .woocommerce-error .button:hover, .woocommerce .woocommerce-info .button:hover, .woocommerce-checkout .woocommerce input.button:hover, .woocommerce-page .woocommerce a.button:hover, .woocommerce-account div.woocommerce .button:hover, .woocommerce.widget .ui-slider .ui-slider-handle, .woocommerce.widget.widget_layered_nav_filters ul li a {background: none repeat scroll 0 0 #dd2200 !important}
+.bdaia-ns-wrap:after {background:#dd2200}
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li >.bd_mega.sub-menu,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li > .sub-menu,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary .sub_cats_posts {border-top-color: #dd2200}
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li:hover > a:after,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-item > a:after,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-ancestor > a:after,
+.bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-parent > a:after {background:#dd2200}
+.bdaia-header-default #navigation .primary-menu #menu-primary > li:hover > a{color: #dd2200}
+.bdayh-click-open{background:#dd2200}
+div.bdaia-alert-new-posts-inner,
+.bdaia-header-default .header-wrapper{border-top-color: #dd2200}
+.bdaia-post-content blockquote{border-color: #dd2200}
+.bdaia-post-content a {color: #dd2200}
+div.widget.bdaia-widget.bdaia-widget-timeline .widget-inner a:hover,
+div.widget.bdaia-widget.bdaia-widget-timeline .widget-inner a:hover span.bdayh-date {
+    color: #dd2200;
+}
+div.widget.bdaia-widget.bdaia-widget-timeline .widget-inner a:hover span.bdayh-date:before {
+    background: #dd2200;
+    border-color: #dd2200;
+}
+#navigation .bdaia-alert-new-posts,
+#navigation .bdaia-cart span.shooping-count,
+div.bdaia-tabs.horizontal-tabs ul.nav-tabs li.current:before,
+div.bdaia-toggle h4.bdaia-toggle-head.toggle-head-open span.bdaia-sio {
+    background: #dd2200;
+}
+.woocommerce .product .onsale, .woocommerce .product a.button:hover, .woocommerce .product #respond input#submit:hover, .woocommerce .checkout input#place_order:hover, .woocommerce .woocommerce.widget .button:hover, .single-product .product .summary .cart .button:hover, .woocommerce-cart .woocommerce table.cart .button:hover, .woocommerce-cart .woocommerce .shipping-calculator-form .button:hover, .woocommerce .woocommerce-message .button:hover, .woocommerce .woocommerce-error .button:hover, .woocommerce .woocommerce-info .button:hover, .woocommerce-checkout .woocommerce input.button:hover, .woocommerce-page .woocommerce a.button:hover, .woocommerce-account div.woocommerce .button:hover, .woocommerce.widget .ui-slider .ui-slider-handle, .woocommerce.widget.widget_layered_nav_filters ul li a {
+    background: none repeat scroll 0 0 #dd2200 !important
+}
+div.bdaia-post-count {border-left-color :#dd2200}
+#bdaia-selector #bdaia-selector-toggle {background:#dd2200}
+div.bdaia-blocks.bdaia-block22 div.block-article hr{background:#dd2200}
+div.bdaia-blocks.bdaia-block22 div.block-article .post-more-btn a,
+div.bdaia-blocks.bdaia-block22 div.block-article .post-more-btn a:hover,
+div.bdaia-blocks.bdaia-block22 div.block-article .bdaia-post-cat-list a,
+div.bdaia-blocks.bdaia-block22 div.block-article .bdaia-post-cat-list a:hover{color:#dd2200}
+body{font-size : 15px; }
+.bdaia-header-default .topbar .top-nav > li > a{font-size : 13px; }
+.bdaia-header-default #navigation .primary-menu #menu-primary > li > a{font-size : 14px; font-weight: bold; }
+#bd-MobileSiderbar #mobile-menu a{font-weight: bolder; }
+.bdaia-crumb-container{font-family: 'Roboto'; }
+.bdaia-feature-posts.bdaia-fp-s1 .bdaia-post-title .entry-title{font-family: 'Roboto'; }
+.bdaia-feature-posts.bdaia-fp-s2 .big-grids .featured-title h2{font-family: 'Roboto'; }
+.bdaia-feature-posts.bdaia-fp-s2 .big-grids.big-grid1 .big-grid-1 .featured-title h2{font-size : 36px; line-height : 36px; }
+.bdaia-feature-posts.bdaia-fp-s3 .big-grids.big-grid2 .big-grid-1 .featured-title h2, .bdaia-feature-posts.bdaia-fp-s3 .big-grids.big-grid2 .big-grid-2 .featured-title h2{font-family: 'Roboto'; font-size : 36px; line-height : 36px; }
+.bd-post-carousel-item article .bd-meta-info-align h3{font-family: 'Roboto'; }
+.bd-cat-link{font-family: 'Roboto'; }
+.bd-more-btn, .bdaia-wb-wrap .bdaia-wb-more-btn .bdaia-wb-mb-inner, .bdaia-load-more-news-btn, button, input[type="button"], input[type="reset"], input[type="submit"]{font-family: 'Roboto'; text-transform: uppercase; }
+.bdaia-block-wrap h4.block-title, .bdaia-template-head h4.block-title{font-family: 'Roboto'; font-size : 26px; line-height : 32px; }
+.bdaia-block-wrap .bdaia-blocks p.block-exb, .bdaia-slider-block .ei-title h3{font-size : 15px; }
+.bdaia-blocks.bdaia-block1 h3{font-family: 'Roboto'; }
+.bdaia-blocks.bdaia-block2 h3{font-family: 'Roboto'; }
+.bdaia-blocks.bdaia-block3 h3{font-family: 'Roboto'; }
+.bdaia-blocks.bdaia-block4 h3{font-family: 'Roboto'; }
+.bdaia-blocks.bdaia-block5 h3{font-family: 'Roboto'; }
+.bdaia-blocks.bdaia-block6 h3{font-family: 'Roboto'; font-weight: bolder; }
+.bdaia-blocks.bdaia-block7 h3{font-family: 'Roboto'; }
+.bdaia-blocks.bdaia-block8 .block-article.block-first-article h3{font-family: 'Roboto'; }
+.bdaia-blocks.bdaia-block9 .block-article.block-first-article h3{font-family: 'Roboto'; }
+.bdaia-blocks.bdaia-block10 .block-article.block-first-article h3{font-family: 'Roboto'; }
+.bdaia-blocks.bdaia-block11 .block-article.block-first-article h3{font-family: 'Roboto'; }
+.bdaia-wb-wrap .bwb-article-content-wrapper footer{font-size : 13px; line-height : 16px; font-weight: normal; }
+.bdaia-wb-wrap .bdaia-wb-article p.block-exb, .check-also-post p{font-size : 14px; }
+div.widget.bdaia-widget .widget-inner li, div.widget.bdaia-widget .widget-inner h3, div.widget.bdaia-widget .widget-inner h4, div.widget.bdaia-widget.bd-tweets .widget-inner p.twitter-text, .check-also-post .post-title, .bdaia-posts-grid-post.post .entry-title, .bdaia-posts-grid-post h3{font-size : 15px; line-height : 18px; font-weight: 400; }
+.bdaia-wb-wrap .bdaia-wb-article.bdaia-wba-big .entry-title, .bdaia-wb-wrap .bdaia-wb-article.bdaia-wba-bigsh .entry-title{font-family: 'Roboto'; }
+.single .bdaia-meta-info, .page .bdaia-meta-info{font-family: 'Roboto'; }
+.bdaia-post-title .entry-title{font-family: 'Roboto'; }
+.single .bdaia-site-content h4.block-title, .page .bdaia-site-content h4.block-title, .bdaia-author-box .authorBlock-header-title{font-family: 'Roboto'; }
+.single .bdaia-site-content .bdaia-post-content, .single .bdaia-site-content .bdaia-post-content p, .page .bdaia-site-content .bdaia-post-content, .page .bdaia-site-content .bdaia-post-content p{font-size : 18px; line-height : 26px; }
+.single .bdaia-site-content .bdaia-post-content blockquote, .single .bdaia-site-content .bdaia-post-content blockquote p, .page .bdaia-site-content .bdaia-post-content blockquote, .page .bdaia-site-content .bdaia-post-content blockquote p{font-size : 16px; line-height : 22px; font-weight: 400; text-transform: none; }
+.bdaia-site-content .bdaia-post-content h1{font-family: 'Roboto'; }
+.bdaia-site-content .bdaia-post-content h2{font-family: 'Roboto'; }
+.bdaia-site-content .bdaia-post-content h3{font-family: 'Roboto'; }
+.bdaia-site-content .bdaia-post-content h4{font-family: 'Roboto'; }
+.bdaia-site-content .bdaia-post-content h5{font-family: 'Roboto'; }
+.bdaia-site-content .bdaia-post-content h6{font-family: 'Roboto'; }
+
+</style><!--[if IE]>
+<script type="text/javascript">jQuery(document).ready(function (){ jQuery(".menu-item").has("ul").children("a").attr("aria-haspopup", "true");});</script>
+<![endif]-->
+<!--[if lt IE 9]>
+<script src="https://xakep.ru/wp-content/themes/woohoo/js/html5.js"></script>
+<script src="https://xakep.ru/wp-content/themes/woohoo/js/selectivizr-min.js"></script>
+<![endif]-->
+<!--[if IE 9]>
+<link rel="stylesheet" type="text/css" media="all" href="https://xakep.ru/wp-content/themes/woohoo/css/ie9.css" />
+<![endif]-->
+<!--[if IE 8]>
+<link rel="stylesheet" type="text/css" media="all" href="https://xakep.ru/wp-content/themes/woohoo/css/ie8.css" />
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" media="all" href="https://xakep.ru/wp-content/themes/woohoo/css/ie7.css" />
+<![endif]-->
+	<link rel="icon" href="https://xakep.ru/wp-content/uploads/2017/06/xakep-favicon-93x93.png" sizes="32x32">
+<link rel="icon" href="https://xakep.ru/wp-content/uploads/2017/06/xakep-favicon.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://xakep.ru/wp-content/uploads/2017/06/xakep-favicon.png">
+<meta name="msapplication-TileImage" content="https://xakep.ru/wp-content/uploads/2017/06/xakep-favicon.png">
+
+	<meta property="og:type" content="article">
+	<meta property="og:url" content="https://xakep.ru/2020/07/08/asm-course-3/">
+	<meta property="og:title" content="Погружение в ассемблер. Осваиваем арифметические инструкции">
+	<meta property="og:description" content="Прочитав эту статью, ты научишься пользоваться арифметическими и логическими инструкциями, а также инструкциями сдвига. Попутно узнаешь, как создавать подпрограммы. А в конце напишешь простенькую игрушку «Угадай число».">
+	<meta property="og:image" content="https://xakep.ru/wp-content/uploads/2017/09/137096/asm-h.jpg">
+
+<link rel="stylesheet" type="text/css" href="chrome-extension://bbpokcagpggnekcmamgdieebhpkjmljm/css/fonts.css"></head>
+<body class="post-template-default single single-post postid-312293 single-format-standard logged-in wpdiscuz_7.3.12" itemscope="" itemtype="http://schema.org/WebPage">
+
+<div class="page-outer bdaia-header-default bdaia-post-template-style7  bdaia-sidebar-none ">
+	<div class="bg-cover"></div>
+	<aside id="bd-MobileSiderbar">
+					<div class="search-mobile">
+				<form role="search" method="get" class="search-form" action="https://xakep.ru/">
+				<label>
+					<span class="screen-reader-text">Найти:</span>
+					<input type="search" class="search-field" placeholder="Поиск…" value="" name="s">
+				</label>
+				<input type="submit" class="search-submit" value="Поиск">
+			</form>			</div>
+				<div id="mobile-menu"><div class="primary-menu">
+                                
+    <!-- End Logo -->
+                    <ul id="menu-primary">
+            <li id="menu-item-154670" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/hack/">  <span class="menu-label" style="">Взлом</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154675" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/privacy/">  <span class="menu-label" style="">Приватность</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154678" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/tricks/">  <span class="menu-label" style="">Трюки</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154671" class=" menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent bd_depth- bd_menu_item "><a href="https://xakep.ru/category/coding/">  <span class="menu-label" style="">Кодинг</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154669" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/admin/">  <span class="menu-label" style="">Админ</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154702" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/geek/">  <span class="menu-label" style="">Geek</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-318615" class="blue menu-item menu-item-type-custom menu-item-object-custom bd_depth- bd_menu_item "><a target="_blank" href="https://my.xakep.ru/courses/">  <span class="menu-label" style="">Обучение</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-326917" class="red menu-item menu-item-type-custom menu-item-object-custom bd_depth- bd_menu_item "><a target="_blank" href="https://xakep.shop/">  <span class="menu-label" style="">Магазин</span></a>
+
+<div class="mega-menu-content">
+</div>          </li></ul>
+        </div><ul id="menu-tags" class="menu"><li id="menu-item-159917" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-159917"><a href="https://xakep.ru/tag/windows/">Windows</a></li>
+<li id="menu-item-159918" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-159918"><a href="https://xakep.ru/tag/linux/">Linux</a></li>
+<li id="menu-item-159919" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-159919"><a href="https://xakep.ru/tag/android/">Android</a></li>
+<li id="menu-item-159921" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-159921"><a href="https://xakep.ru/tag/zhelezo/">Железо</a></li>
+<li id="menu-item-176356" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-176356"><a href="https://xakep.ru/tag/messengers/">Мессенджеры</a></li>
+<li id="menu-item-215912" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-215912"><a href="https://xakep.ru/tag/leaks/">Утечки</a></li>
+<li id="menu-item-286896" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-286896"><a href="https://xakep.ru/tag/covid-19/">Коронавирус</a></li>
+<li id="menu-item-355822" class="hidden menu-item menu-item-type-custom menu-item-object-custom menu-item-355822"><a target="_blank" rel="noopener" href="https://xakep.ru/issues/xa/">Все выпуски «Хакера»</a></li>
+</ul></div>
+					<div class="widget-social-links bdaia-social-io-colored">
+				<div class="sl-widget-inner">
+									</div>
+			</div>
+			</aside>
+	<div id="page">
+		<div class="inner-wrapper">
+			<div id="warp" class="clearfix  bdaia-sidebar-none ">
+				
+<div class="header-wrapper bdaia-hibryd-menu">
+	
+	
+	
+	<style scoped="">.bdaia-header-default #navigation .primary-menu #menu-primary > li > a, .bdaia-header-default #navigation .primary-menu #menu-primary > li > a > *, #navigation .bdaia-cart, .bdaia-nav-search, #navigation .bdaia-random-post{color: #ededed !important;} .bdaia-header-default #navigation .primary-menu #menu-primary > li.bd_mega_menu > a:before, .bdaia-header-default #navigation .primary-menu #menu-primary > li.menu-item-object-category > a:before, .bdaia-header-default #navigation .primary-menu #menu-primary > li.menu-item-has-children > a:before{border-top-color:#ededed;}.bdaia-header-default #navigation .primary-menu #menu-primary > li > a:hover, .bdaia-header-default #navigation .primary-menu #menu-primary > li:hover > a {color: #ffffff;}.bdaia-header-default #navigation .primary-menu ul#menu-primary > li:hover > a, .bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-item > a, .bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-ancestor > a, .bdaia-header-default #navigation .primary-menu ul#menu-primary > li.current-menu-parent > a, #navigation .bdaia-cart, .bdaia-nav-search, #navigation .bdaia-random-post {background: #23282D; border : 0 none !important; color: #ffffff;}</style><div class="cfix"></div>
+<nav id="navigation" style="background: #32393D; border-top-color:transparent !important">
+  <div class="navigation-wrapper" style="background: #32393D; border-top-color:transparent !important">
+    <div class="bd-container">
+      <div class="bdayh-click-open"><div class="bd-ClickOpen bd-ClickAOpen"><span></span></div></div>
+      <style type="text/css">
+        .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu{z-index:111;}
+        #menu-profile{z-index:1;}
+
+        #menu-profile{position:absolute;top:0;right:0;min-width:120px;max-width:200px;height:60px;color:#fff;padding:10px 0 10px 50px;}
+        #menu-profile a{color:#fff;}
+        #menu-profile .username{display:block;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
+        #menu-profile>img{border-radius:50%;border: solid 2px #fff;max-width: 42px;max-height: 42px;position: absolute;top:10px;left:0;}
+        #menu-profile>a{text-decoration:underline;}
+        #menu-profile .login-link{display:block;float:right;margin:10px 5px 0 0;}
+        #menu-profile .links{display:none;position:absolute;width:118px;left:0;top:55px;padding:10px 0;background-color: #32393D;border: solid 1px #fff;border-radius: 6px;color: #fff;box-shadow: 0 5px 15px #000;}
+        #menu-profile .links:before{content:'';display:block;position:absolute;width:16px;height:16px;border:solid 8px transparent;border-bottom-color: #fff;top:-16px;left:12px;}
+        #menu-profile .links a{display:block;padding:2px 15px;}
+        #menu-profile .links .logout{display:none;}
+        #menu-profile .links a:hover{background-color:#23282D;}
+        #menu-profile:hover .links, #menu-profile:focus .links, #menu-profile .links:hover, #menu-profile .links:focus{display:block;}
+
+        #navigation .primary-menu{position:relative !important;}
+        #navigation .secondary-menu{position:relative;height:34px;background-color:#23282D;}
+        #navigation .secondary-menu:before, #navigation .secondary-menu:after{content:'';display:block;position:absolute;top:0;width:100%;height:34px;background-color:#23282D;}
+        #navigation .secondary-menu:before{left:-100%;}
+        #navigation .secondary-menu:after{right:-100%;}
+        #navigation .mobile-subscribe{display:none;text-align:center;height:34px;line-height:34px;color:#fff;text-decoration:underline;}
+        #navigation .secondary-menu #menu-tags{float:left;height:34px;margin:0;}
+        #navigation .secondary-menu #menu-tags li{display:inline-block;}
+        #navigation .secondary-menu #menu-tags li a {display:inline-block;height:34px;line-height:34px;color: #fff;padding:0 10px;}
+        #navigation .secondary-menu #menu-tags li a:hover{background-color:#32393D;}
+        .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu #navigation .bdaia-alert-new-posts, .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu #navigation .bdaia-alert-new-posts span, .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu #navigation .bdaia-random-post, .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu #navigation .bdaia-random-post .bdaia-io, .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu #navigation .bdaia-cart, .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu #navigation .bdaia-cart .bdaia-io, .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu .bdaia-nav-search, .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu .bdaia-nav-search .bdaia-ns-btn.bdaia-io{height:34px;line-height:34px;}
+        .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu .bdaia-nav-search, .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu .bdaia-nav-search .bdaia-ns-btn.bdaia-io{font-size: 18px;}
+        #navigation .bdaia-alert-new-posts {padding: 0 30px; font-weight: 700;}
+        .bdaia-hibryd-menu .bdayh-click-open, .bdaia-hibryd-menu .bd-ClickOpen{width:60px;height:60px;line-height:60px;background-color:transparent;}
+        .bdaia-hibryd-menu .bd-ClickOpen{padding:0 0 0 12px;}
+        .bdaia-hibryd-menu .bd-ClickOpen span{margin:20px 0 0 0 !important;}
+        .bdaia-hibryd-menu .bd-ClickOpen span, .bdaia-hibryd-menu .bd-ClickOpen span:after, .bdaia-hibryd-menu .bd-ClickOpen span:before {height:3px;width:32px;}
+        .bdaia-hibryd-menu .bd-ClickOpen span {margin: 16px 0 0 0;}
+        #bd-MobileSiderbar #menu-tags{display:block;border-top: solid 8px #eee;}
+        #bd-MobileSiderbar #menu-tags li{display:block;}
+
+        @media (min-width: 768px) {
+          .bdaia-header-default .bdayh-click-open {display: none !important;}
+          .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu #navigation div.bdaia-nav-search,
+          .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu #navigation ul#menu-primary{display:block !important;}
+          #navigation .primary-menu {position:absolute;width: 100%;overflow: hidden;}
+          .bdaia-header-default div.header-wrapper.bdaia-hibryd-menu div.logo {
+            float: left;
+            padding-left: 0;
+            padding-right: 10px;
+            max-height: 60px;
+          }
+        }
+        @media (max-width:900px){
+          #menu-profile{width:60px !important;min-width:0;padding:0;right:-2%;}
+          #menu-profile>span, #menu-profile>.logout-link{display:none !important;}
+          #menu-profile .login-link{margin:20px 5px 0 0;}
+          #menu-profile .links{left:auto;right:18px;}
+          #menu-profile .links:before{left:auto;right:12px;}
+          #menu-profile .links .logout{display:block;}
+          #menu-profile>img{display:block !important;}
+        }
+        @media (max-width:767px){
+          #menu-profile{right:-5.5%;}
+          #menu-profile .links a{padding:7px 15px;}
+          #navigation .secondary-menu #menu-tags{display:none;}
+          #navigation .mobile-subscribe{display:block;}
+          body.subscriber #navigation .secondary-menu{display:none!important;}
+        }
+        @media (max-width:479px){
+          #menu-profile{right:0;}
+        }
+        .bdaia-blocks.bdaia-block6{z-index:0;}
+      </style>
+      
+
+
+              <div class="primary-menu">
+                                
+    <div class="logo">
+        <h2 class="site-title" title="Факультет компьютерной опасности">                        <a href="https://xakep.ru/" rel="home">
+                <img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/x-new_6.png" alt="«Хакер»">
+            </a>
+                        </h2>    </div><!-- End Logo -->
+                    <ul id="menu-primary">
+            <li id="menu-item-154670" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/hack/">  <span class="menu-label" style="">Взлом</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154675" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/privacy/">  <span class="menu-label" style="">Приватность</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154678" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/tricks/">  <span class="menu-label" style="">Трюки</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154671" class=" menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent bd_depth- bd_menu_item "><a href="https://xakep.ru/category/coding/">  <span class="menu-label" style="">Кодинг</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154669" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/admin/">  <span class="menu-label" style="">Админ</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-154702" class=" menu-item menu-item-type-taxonomy menu-item-object-category bd_depth- bd_menu_item "><a href="https://xakep.ru/category/geek/">  <span class="menu-label" style="">Geek</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-318615" class="blue menu-item menu-item-type-custom menu-item-object-custom bd_depth- bd_menu_item "><a target="_blank" href="https://my.xakep.ru/courses/">  <span class="menu-label" style="">Обучение</span></a>
+
+<div class="mega-menu-content">
+</div></li><li id="menu-item-326917" class="red menu-item menu-item-type-custom menu-item-object-custom bd_depth- bd_menu_item "><a target="_blank" href="https://xakep.shop/">  <span class="menu-label" style="">Магазин</span></a>
+
+<div class="mega-menu-content">
+</div>          </li></ul>
+        </div>
+
+        <div class="cfix"></div>
+        <div class="secondary-menu">
+          <a class="mobile-subscribe" href="https://xakep.ru/wp-admin/users.php?page=paywall_subscribes&amp;from=paywall_subscribe&amp;subscribe=12_months">Подписаться на материалы</a>
+          <div class="menu-tags-container"><ul id="menu-tags" class="menu"><li id="menu-item-159917" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-159917"><a href="https://xakep.ru/tag/windows/">Windows</a></li>
+<li id="menu-item-159918" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-159918"><a href="https://xakep.ru/tag/linux/">Linux</a></li>
+<li id="menu-item-159919" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-159919"><a href="https://xakep.ru/tag/android/">Android</a></li>
+<li id="menu-item-159921" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-159921"><a href="https://xakep.ru/tag/zhelezo/">Железо</a></li>
+<li id="menu-item-176356" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-176356"><a href="https://xakep.ru/tag/messengers/">Мессенджеры</a></li>
+<li id="menu-item-215912" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-215912"><a href="https://xakep.ru/tag/leaks/">Утечки</a></li>
+<li id="menu-item-286896" class="menu-item menu-item-type-taxonomy menu-item-object-post_tag menu-item-286896"><a href="https://xakep.ru/tag/covid-19/">Коронавирус</a></li>
+<li id="menu-item-355822" class="hidden menu-item menu-item-type-custom menu-item-object-custom menu-item-355822"><a target="_blank" rel="noopener" href="https://xakep.ru/issues/xa/">Все выпуски «Хакера»</a></li>
+</ul></div>          <span class="bdaia-alert-new-posts">Выпуски</span>
+                      <div class="bdaia-nav-search">
+              <span class="bdaia-ns-btn bdaia-io bdaia-io-search"></span>
+              <div class="bdaia-ns-wrap">
+                <div class="bdaia-ns-content">
+                  <div class="bdaia-ns-inner">
+                    <form method="get" id="searchform" action="https://xakep.ru/">
+                      <input type="text" class="bbd-search-field" id="s" name="s" placeholder="Поиск по сайту">
+                      <button type="submit" class="bbd-search-btn"><span class="bdaia-io bdaia-io-search"></span></button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+                  </div>
+      
+              <div class="cfix"></div>
+        <style type="text/css">
+                  </style>
+        <div class="bdaia-alert-new-posts-content">
+          <div class="bdaia-alert-new-posts-inner">
+            <div class="bdaia-anp-inner">
+              <a href="https://xakep.ru/issues" title="Все выпуски «Хакера»" class="bdaia-io bdaia-io-angle-double-left">&nbsp;</a>
+              
+
+
+              <div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 sub">
+                <a href="https://xakep.ru/about" target="_blank">
+                  <p class="desc">
+                    <img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/xakep_logo_w.png" alt="/">
+                    Годовая<br>подписка<br>на<br><strong>Хакер</strong>
+                  </p>
+                  <img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/issue-stub.png" width="210" height="280" alt="/">
+                </a>
+                              </div>
+            <div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 current_issue">
+                  <div class="img-wrap">
+                    <a href="https://xakep.ru/issues/xa/274"><img width="210" height="280" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/274-retina-1-210x280.jpg" class="attachment-medium size-medium wp-post-image" alt="" loading="lazy" srcset="https://xakep.ru/wp-content/uploads/2022/01/368398/274-retina-1-210x280.jpg 210w, https://xakep.ru/wp-content/uploads/2022/01/368398/274-retina-1-70x93.jpg 70w, https://xakep.ru/wp-content/uploads/2022/01/368398/274-retina-1-768x1024.jpg 768w, https://xakep.ru/wp-content/uploads/2022/01/368398/274-retina-1-1152x1536.jpg 1152w, https://xakep.ru/wp-content/uploads/2022/01/368398/274-retina-1.jpg 1536w" sizes="(max-width: 210px) 100vw, 210px"></a>
+                    <p class="title">Xakep #274. Твикинг Windows 11</p>
+                  </div>
+                </div><div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 ">
+                  <div class="img-wrap">
+                    <a href="https://xakep.ru/issues/xa/273"><img width="210" height="280" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/273-retina-210x280.jpg" class="attachment-medium size-medium wp-post-image" alt="" loading="lazy" srcset="https://xakep.ru/wp-content/uploads/2021/12/366640/273-retina-210x280.jpg 210w, https://xakep.ru/wp-content/uploads/2021/12/366640/273-retina-70x93.jpg 70w, https://xakep.ru/wp-content/uploads/2021/12/366640/273-retina-768x1024.jpg 768w, https://xakep.ru/wp-content/uploads/2021/12/366640/273-retina-1152x1536.jpg 1152w, https://xakep.ru/wp-content/uploads/2021/12/366640/273-retina.jpg 1536w" sizes="(max-width: 210px) 100vw, 210px"></a>
+                    <p class="title">Xakep #273. Log4Hell</p>
+                  </div>
+                </div><div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 ">
+                  <div class="img-wrap">
+                    <a href="https://xakep.ru/issues/xa/272"><img width="210" height="280" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/272-retina-210x280.jpg" class="attachment-medium size-medium wp-post-image" alt="" loading="lazy" srcset="https://xakep.ru/wp-content/uploads/2021/11/363594/272-retina-210x280.jpg 210w, https://xakep.ru/wp-content/uploads/2021/11/363594/272-retina-70x93.jpg 70w, https://xakep.ru/wp-content/uploads/2021/11/363594/272-retina-768x1024.jpg 768w, https://xakep.ru/wp-content/uploads/2021/11/363594/272-retina-1152x1536.jpg 1152w, https://xakep.ru/wp-content/uploads/2021/11/363594/272-retina.jpg 1536w" sizes="(max-width: 210px) 100vw, 210px"></a>
+                    <p class="title">Xakep #272. Приручаем WinAFL</p>
+                  </div>
+                </div><div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 ">
+                  <div class="img-wrap">
+                    <a href="https://xakep.ru/issues/xb/007"><img width="210" height="280" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/bundle-Linux-v-210x280.jpg" class="attachment-medium size-medium wp-post-image" alt="" loading="lazy" srcset="https://xakep.ru/wp-content/uploads/2021/11/366590/bundle-Linux-v-210x280.jpg 210w, https://xakep.ru/wp-content/uploads/2021/11/366590/bundle-Linux-v-70x93.jpg 70w, https://xakep.ru/wp-content/uploads/2021/11/366590/bundle-Linux-v-768x1024.jpg 768w, https://xakep.ru/wp-content/uploads/2021/11/366590/bundle-Linux-v-1152x1536.jpg 1152w, https://xakep.ru/wp-content/uploads/2021/11/366590/bundle-Linux-v.jpg 1536w" sizes="(max-width: 210px) 100vw, 210px"></a>
+                    <p class="title">Linux для хакера</p>
+                  </div>
+                </div><div class="bd-col-xs-4 bd-col-sm-3 bd-col-md-2 ">
+                  <div class="img-wrap">
+                    <a href="https://xakep.ru/issues/xb/006"><img width="210" height="280" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/python4-v-210x280.jpg" class="attachment-medium size-medium wp-post-image" alt="" loading="lazy" srcset="https://xakep.ru/wp-content/uploads/2021/10/362909/python4-v-210x280.jpg 210w, https://xakep.ru/wp-content/uploads/2021/10/362909/python4-v-70x93.jpg 70w, https://xakep.ru/wp-content/uploads/2021/10/362909/python4-v-768x1024.jpg 768w, https://xakep.ru/wp-content/uploads/2021/10/362909/python4-v-1152x1536.jpg 1152w, https://xakep.ru/wp-content/uploads/2021/10/362909/python4-v.jpg 1536w" sizes="(max-width: 210px) 100vw, 210px"></a>
+                    <p class="title">Python для хакера</p>
+                  </div>
+                </div>              <div id="sub-help"><a href="https://xakep.ru/subscribe/discounts" target="_blank">Информация о скидках</a></div>
+      
+
+
+
+            </div>
+            <div class="cfix"></div>
+          </div>
+        </div>
+      
+      <div class="cfix"></div>
+    </div>
+  </div>
+</nav>
+<div class="cfix"></div>
+
+
+</div>
+
+
+				<div class="bdaia-post-style7-head"><a class="bdaia-featured-img-cover" style="background-image:url(https://xakep.ru/wp-content/uploads/2017/09/137096/asm-h.jpg);"></a><div class="bd-container"><header class="bdaia-post-header">
+          <div class="bdaia-category"><a class="bd-cat-link bd-cat-4929" href="https://xakep.ru/category/coding/">Кодинг</a><span class="bd-cat-link bd-cat-level" style="background-color:#d20;">Для&nbsp;начинающих</span></div>
+          <div class="bdaia-post-title"><a href="https://xakep.ru/2020/07/08/asm-course-3/"><h1 class="post-title entry-title">Погружение в ассемблер. Осваиваем арифметические инструкции</h1></a></div>
+          
+<div class="bdaia-meta-info">
+
+	<div class="bdaia-post-author-name">
+				<a href="https://xakep.ru/author/vedacoder/" title="Записи Антон Карев" rel="author">Антон Карев</a>			</div>
+			<div class="bdaia-post-date"><span class="bdayh-date">08.07.2020</span></div>
+	
+	
+			<div class="bdaia-post-comment">
+			<span class="bdaia-io bdaia-io-bubble"></span>
+			<a href="https://xakep.ru/2020/07/08/asm-course-3/#postbottom">16 комментариев</a>
+					</div>
+	
+			<div class="bdaia-post-view">
+			<span class="bdaia-io bdaia-io-eye4"></span>
+			22,249		</div>
+	
+			<div class="bdaia-post-like"><div id="bookmark" data-pid="312293"><div class="add" title="Добавить в закладки"><i class="bdaia-io bdaia-io-heart"></i><span>Добавить в закладки</span></div></div></div>
+	
+</div>
+<!-- END Meta Info. -->          <div class="bdaia-post-read-down"><a href="https://xakep.ru/2020/07/08/asm-course-3/#"><span class="bdaia-io bdaia-io-angle-double-down"></span></a></div>
+        </header></div><img class="bdaia-featured-img-mobile" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/asm-h.jpg"></div>				
+								
+									<div class="cfix"></div>
+					<div class="bdaia-hibryd-e3">
+						
+						</div>
+					<div class="cfix"></div>
+																				<div class="bdMain">
+<style type="text/css">
+  .bdaia-post-template-style7 .bdaia-featured-img-mobile {display:none;margin: 20px auto 0;}
+  @media only screen and (max-width: 767px) {
+    .bdaia-post-template-style7 .bdaia-post-style7-head {background-color:transparent;margin:15px 0 -5px;}
+    .bdaia-post-template-style7 .bdaia-post-style7-head * {color:#222; text-shadow:none;}
+    .bdaia-post-template-style7 .bdaia-post-style7-head .bd-container{height:auto; padding:0;}
+    .bdaia-post-template-style7 .bdaia-post-style7-head .bdaia-post-header{position:relative; text-align:left; padding:0;}
+    .bdaia-post-template-style7 .bdaia-post-style7-head .bdaia-meta-info {margin:0;}
+    .bdaia-post-template-style7 .bdaia-post-style7-head .bdaia-meta-info * {color:#444;}
+    .bdaia-post-template-style7 .bdaia-featured-img-mobile {display:block;}
+
+    .bdaia-post-template-style7 #content .bdaia-post-style7-head{margin:20px auto;}
+    .bdaia-post-template-style7 #content .bdaia-post-style7-head .bd-container{width:100% !important; max-width:100% !important; padding:0;}
+
+    #navigation .secondary-menu,
+    .bdaia-post-template-style7 .bdaia-featured-img-cover,
+    .bdaia-post-template-style7 .bdaia-post-style7-head .bdaia-category,
+    .bdaia-post-template-style7 .bdaia-post-style7-head .bdaia-post-time-read,
+    .bdaia-post-template-style7 .bdaia-post-style7-head .bdaia-post-read-down,
+    #amp-link{display:none !important;}
+    #bookmark, #bookmark .add, #bookmark .add *{color:#444;}
+    #bookmark:hover, #bookmark .del, #bookmark .del *{color:#d20;}
+  }
+  @media only screen and (max-width: 480px) {
+    .bdaia-post-template-style7 .bdaia-post-style7-head .bd-container{padding:0 10px;}
+  }
+  </style>
+<!--div id=amp-link><a href=https://xakep.ru/2020/07/08/asm-course-3/?amp>Мобильная версия статьи</a></div-->
+<div class="bd-container bdaia-post-template">
+  <div class="bd-main bdaia-site-content" id="bdaia-primary">
+
+    <div id="content" role="main"><article id="post-312293" data-id="312293" class="hentry post-312293 post type-post status-publish format-standard has-post-thumbnail category-coding tag-asm tag-assembler tag-vybor-redaktora tag-guides tag-articles" itemscope="" itemtype="http://schema.org/Article">
+                  <div class="bdaia-post-content can_read">
+            <div id="sticker"><div class="theiaStickySidebar"><div class="xakep-ads" id="mpu0-desktop" style="display: block;"><!-- /92401962/xa_mpu-0 --><div id="div-gpt-ad-1529280069303-0"><script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1529280069303-0'); });</script></div></div><div class="xakep-ads" id="mpu1-desktop" style="display: block;"><!-- /92401962/xa_mpu-1 --><div id="div-gpt-ad-1585167363824-0" style="width: 240px; height: 400px;">  <script>    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1585167363824-0'); });  </script></div></div></div></div>
+            <div id="toc"><h3>Содержание статьи</h3><ul><li class="h3" data-id="00.1"><a href="#toc00.1">Другие статьи курса</a></li><li class="h2" data-id="01."><a href="#toc01.">Пишем вспомогательную подпрограмму</a></li><li class="h2" data-id="02."><a href="#toc02.">Учимся складывать и вычитать</a></li><li class="h2" data-id="03."><a href="#toc03.">Осваиваем инструкцию умножения</a></li><li class="h2" data-id="04."><a href="#toc04.">Разбираемся с инструкцией деления</a></li><li class="h2" data-id="05."><a href="#toc05.">Логический и арифметический сдвиги, циклический сдвиг</a></li><li class="h2" data-id="06."><a href="#toc06.">Три логические инструкции плюс одна бесполезная</a></li><li class="h2" data-id="07."><a href="#toc07.">Знакомимся с инструкциями инкремента и декремента</a></li><li class="h2" data-id="08."><a href="#toc08.">Пишем простую игрушку «Угадай число»</a></li><li class="h2" data-id="09."><a href="#toc09.">Выводы</a></li><li class="h3" data-id="09.1"><a href="#toc09.1">Инструкции и операторы</a></li></ul></div><div class="lead"> Прочитав эту статью, ты научишься пользоваться арифметическими и логическими инструкциями, а также инструкциями сдвига. Попутно узнаешь, как создавать подпрограммы. А в конце напишешь простенькую игрушку «Угадай число».</div>
+
+<div class="panel default">
+
+<div id="toc00.1" class="toch">&nbsp;</div><h3>Другие статьи курса</h3>
+
+<ul>
+<li><a href="https://xakep.ru/2020/10/20/asm-course-8/">Зачем учить ассемблер в 2020 году</a></li>
+<li><a href="https://xakep.ru/2020/06/16/asm-course-2/">Делаем первые шаги в освоении асма</a></li>
+<li><a href="https://xakep.ru/2020/08/11/asm-course-4/">Как работают переменные, режимы адресации, инструкции условного перехода</a></li>
+<li><a href="https://xakep.ru/2020/09/14/asm-course-5/">Учимся работать с памятью</a></li>
+<li><a href="https://xakep.ru/2020/10/06/asm-course-6/">Работаем с большими числами и делаем сложные математические вычисления</a></li>
+<li><a href="https://xakep.ru/2020/10/15/asm-course-7/">Сокращаем размер программы</a></li>
+<li><a href="https://xakep.ru/2020/03/23/floppy-bird/">Пишем клон игры Flappy Bird, который уместится в бутсектор</a></li>
+<li><a href="https://xakep.ru/2020/05/13/microb/">Пишем бейсик и умещаем его в 512 байт</a></li>
+</ul>
+
+</div>
+
+<p>Большинство тех инструкций, о которых ты узнаешь из этой статьи, принимают на входе два аргумента. Каждый отдельно взятый аргумент — это либо регистр, либо память, либо константа. Почти все их сочетания допустимы: регистр-регистр, регистр-память, память-регистр, регистр-константа, память-константа. Единственное недопустимое сочетание — память-память.</p>
+
+<p>Регистры могут быть 16- или 8-битными. 16-битные регистры: <code>AX</code>, <code>BX</code>, <code>CX</code>, <code>DX</code>, <code>SI</code>, <code>DI</code>, <code>BP</code> и <code>SP</code>. 8-битные регистры: <code>AH</code>, <code>AL</code>, <code>BH</code>, <code>BL</code>, <code>CH</code>, <code>CL</code>, <code>DH</code> и <code>DL</code>.</p><div class="bdaia-p-inline-e3-desktop"><div class="bdaia-e3-container"></div></div>
+
+<div id="toc01." class="toch">&nbsp;</div><h2>Пишем вспомогательную подпрограмму</h2>
+
+<p>У всех программ, которые мы с тобой сейчас напишем, есть повторяющееся действие: вывести результат на экран. Чтобы не писать код для этого действия каждый раз заново, давай напишем для него подпрограмму.</p>
+
+<p>Что такое подпрограмма? Это кусок кода, который выполняет какую-то небольшую задачу. К подпрограмме обычно обращаются через инструкцию <code>call</code>. Все подпрограммы заканчиваются инструкцией <code>ret</code> (RETurn).</p>
+
+<p>Пока это все, что тебе нужно знать о подпрограммах. Конечно, по-хорошему, когда пользуешься подпрограммами, надо бы понимать еще несколько вещей, в частности что такое указатель стека и как он меняется при обращении к подпрограмме. Но пока, в рамках текущего урока, давай просто условимся, что если тебе надо нарисовать на экране букву, просто вставляй в свой код вот такую инструкцию.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/call.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/call.png" alt="" width="1200"></a>
+
+<p>Реализация подпрограммы <code>call display_letter</code> представлена ниже. Сохрани ее в файл <code>library.asm</code>.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/library.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/library.png" alt="" width="1200"></a>
+
+<p><strong>Важно!</strong> В конец всех программ, которые мы напишем, тебе надо будет вставлять код из <code>library.asm</code>. К чему это приведет? Все программы будут заканчиваться выходом в командную строку, и у них будут подпрограммы для вывода символа на экран (из регистра <code>AL</code>) и для считывания символа с клавиатуры (результат помещается в регистр <code>AL</code>).</p>
+
+<div id="toc02." class="toch">&nbsp;</div><h2>Учимся складывать и вычитать</h2>
+
+<p>В качестве аргументов для инструкции сложения давай задействуем регистр <code>AL</code> и константу.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/add.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/add.png" alt="" width="1200"></a>
+
+<p>Эта программа выводит на экран цифру <code>7</code>. Потому что <code>4 + 3 = 7</code>.</p>
+
+<p>В качестве аргументов для инструкции вычитания давай возьмем регистр <code>AL</code> и константу.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/sub.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/sub.png" alt="" width="1200"></a>
+
+<p>Эта программа выводит на экран цифру <code>1</code>. Потому что <code>4 – 3 = 1</code>.</p>
+
+
+
+<div id="toc03." class="toch">&nbsp;</div><h2>Осваиваем инструкцию умножения</h2>
+
+<p>Инструкция умножения умеет работать с байтами (8-битные числа) и словами (16-битные числа). Умножаемое — это всегда регистр <code>AL</code>/<code>AX</code>. А множителем может быть либо регистр (любой), либо переменная в памяти.</p>
+
+<p>Только учти, что если умножаемое у тебя в <code>AL</code>, то множитель должен быть 8-битным, а если в <code>AX</code> — 16-битным. Результат умножения попадает либо в <code>AX</code> (когда перемножаем два 8-битных числа), либо в <code>DX:AX</code> (когда перемножаем два 16-битных числа).</p>
+
+<p>В примере ниже мы используем два 8-битных регистра <code>AL</code> (умножаемое) и <code>CL</code> (множитель). Результат попадает в 16-битный регистр <code>AX</code>.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/mul.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/mul.png" alt="" width="1200"></a>
+
+<p>Эта программа выводит на экран цифру <code>6</code>. Потому что <code>3 × 2 = 6</code>.</p>
+
+<p>Для того чтобы перемножить два 16-битных числа, умножаемое помести в <code>AX</code>, а множитель — в <code>CX</code>. Затем вместо <code>mul cl</code> напиши <code>mul cx</code>.</p>
+
+<p>Обрати внимание, инструкция <code>mul</code> оперирует беззнаковыми целыми. Если тебе надо перемножить числа со знаком, используй <code>imul</code>.</p>
+
+<div id="toc04." class="toch">&nbsp;</div><h2>Разбираемся с инструкцией деления</h2>
+
+<p>Инструкция деления умеет работать со словами (16-битные числа) и двойными словами (32-битные числа). Делимое — это всегда либо регистр <code>AX</code>, либо <code>DX:AX</code>. А делителем может быть либо регистр (любой), либо переменная в памяти.</p>
+
+<p>Только учти, что если делимое у тебя в <code>AX</code>, то делитель должен быть 8-битным, а если в <code>DX:AX</code> — 16-битным.</p>
+
+<p>Когда ты делишь 16-битное число на 8-битное, то результат попадает в <code>AL</code>, а остаток — в <code>AH</code>. Если делишь 32-битное число на 16-битное, результат попадает в <code>AX</code>, остаток — в <code>DX</code>.</p>
+
+<p>В примере ниже мы используем 16-битный и 8-битный регистры. Результат попадает в <code>AL</code>, остаток в <code>AH</code>.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/div.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/div.png" alt="" width="1200"></a>
+
+<p>Эта программа выводит на экран цифру <code>3</code>. Потому что <code>100 / 33 = 3</code>. Если хочешь посмотреть, какой остаток получился, добавь вот такую строчку сразу после той, где написана инструкция <code>div</code>.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/div-reminder.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/div-reminder.png" alt="" width="1200"></a>
+
+<p><strong>Берегись!</strong> Инструкция деления может сломать твою программу. Если ты сделаешь деление на ноль, то возникнет системная ошибка и твоя программа вылетит в командную строку.</p>
+
+<p>Обрати внимание, инструкция <code>div</code> оперирует беззнаковыми целыми. Если тебе надо разделить числа со знаком, используй <code>idiv</code>.</p>
+
+<div id="toc05." class="toch">&nbsp;</div><h2>Логический и арифметический сдвиги, циклический сдвиг</h2>
+
+<p>Инструкции сдвига (операторы <code>&lt;&lt;</code> и <code>&gt;&gt;</code> в языках высокого уровня) — это самые родные инструкции для процессора. Работают они быстрее, чем большинство других инструкций. Так что если какую-то часть вычислений можно реализовать на них, — особенно если это позволит избежать инструкций умножения и деления, — смело их используй.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/shl.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/shl.png" alt="" width="1200"></a>
+
+<p>Сейчас объясню, как здесь работает инструкция сдвига. Представь, что значение регистра <code>AL</code>&nbsp;—&nbsp;это число в двоичной системе счисления. Инструкция <code>shl</code> просто сдвигает каждый бит двоичного числа на одну позицию влево и добавляет справа ноль. А тот бит, который вытесняется слева, попадает в флаг <code>CF</code> (Carry Flag; флаг переноса).</p>
+
+<p>Аналогичным образом работает инструкция <code>shr</code>, но только она сдвигает биты регистра вправо, а не влево.</p>
+
+<p>Есть еще инструкция <code>sar</code>, которая работает почти как <code>shr</code>, но в отличие от <code>shr</code> делает не логический, а арифметический сдвиг. Что это значит? Когда <code>sar</code> сдвигает бит двоичного числа вправо, то не добавляет ноль, а дублирует бит, который там был до сдвига. Иногда это может быть и ноль, но не всегда.</p>
+
+<p>В чем польза от такой хитроумной альтернативы обычному сдвигу вправо? В том, что <code>sar</code> позволяет двигать числа со знаком. Сдвинуть их может и <code>shr</code>, вот только в регистре в результате этого получится белиберда.</p>
+
+<p>Ты, наверное, уже понял, что вторым аргументом у всех инструкций сдвига указывается количество позиций, на которое нужно сдвинуть биты регистра. Обрати внимание: если указываешь это количество цифрой, то это может быть только единица. Если хочешь за раз сдвинуть сразу несколько битов, воспользуйся регистром <code>CL</code>.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/shl-variations.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/shl-variations.png" alt="" width="1200"></a>
+
+<p>Еще есть инструкции для циклического сдвига: <code>ror</code>, <code>rcr</code>, <code>rol</code> и <code>rcl</code>. В чем их особенность? Биты, выдвигаемые с одного конца, появляются с другой стороны. Циклический сдвиг вправо выполняется инструкцией <code>ror</code>, а влево — инструкцией <code>rol</code>. <code>rcr/rcl</code> делают то же самое, что <code>ror/rol</code>, только задействуют еще один дополнительный бит — <code>CF</code>. Добавляемый бит берется из <code>CF</code>, а выдвигаемый попадает в <code>CF</code>.</p>
+
+<div class="panel info"><div class="info-inner"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/info-icon.jpg"><h2>INFO</h2>
+
+<p>У <code>shl</code> (логический сдвиг влево) есть синоним — <code>sal</code>. Две эти инструкции полностью идентичны — вплоть до того, что генерируются в один и тот же машинный код.</p>
+
+</div></div>
+
+<div id="toc06." class="toch">&nbsp;</div><h2>Три логические инструкции плюс одна бесполезная</h2>
+
+<p>В 8088 доступны три логические инструкции: <code>and</code>, <code>or</code> и <code>xor</code>.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/logical.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/logical.png" alt="" width="1200"></a>
+
+<p>Инструкция <code>and</code> эквивалентна оператору <code>&amp;</code> в Си и JavaScript; <code>or</code> — оператору <code>|</code>, а <code>xor</code> — оператору <code>^</code>.</p>
+
+<p>Еще есть инструкция <code>not</code>, которая принимает только один параметр. Она инвертирует все биты указанного регистра. (<code>not al</code> эквивалентна оператору <code>~</code> в Си и JavaScript).</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/not.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/not.png" alt="" width="1200"></a>
+
+<p>Кроме того, у 8088 есть инструкция <code>neg</code>, которая очень похожа на <code>not</code>, но только она делает не логическую инверсию, а арифметическую: меняет знак у заданного числа.</p>
+
+<p>Еще в ассемблере есть инструкция, которая не делает совершенно ничего. Ты можешь вставить ее в любое место своей программы, и она никак не повлияет на ход выполнения. Конечно, за исключением того, что программа отработает чуть медленнее. Это инструкция <code>nop</code>. Можешь поэкспериментировать с ней. Вставь ее куда душе угодно после директивы <code>org</code>, и ты увидишь, как твоя программа увеличится ровно на один байт (это размер инструкции No OPeration), но работать будет без изменений.</p>
+
+<div id="toc07." class="toch">&nbsp;</div><h2>Знакомимся с инструкциями инкремента и декремента</h2>
+
+<p>Инструкции инкремента и декремента позволяют увеличивать или уменьшать на единицу значение регистра или значение переменной в памяти. Эти инструкции работают и с байтами (8 бит), и со словами (16 бит).</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/inc.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/inc.png" alt="" width="1200"></a>
+
+<p>Тут мы:</p>
+
+<ol>
+<li>загружаем в <code>AL</code> ASCII-код цифры ноль, то есть <code>0x30</code>;</li>
+<li>показываем цифру на экране;</li>
+<li>прибавляем к <code>AL</code> единицу;</li>
+<li>повторяем шаги 2–3 до тех пор, пока в <code>AL</code> не окажется <code>0x39</code>;</li>
+<li>показываем текущий символ и делаем все то же самое, что раньше, но в обратном порядке;</li>
+<li>отнимаем от <code>AL</code> единицу;</li>
+<li>выводим на экран то, что получилось;</li>
+<li>повторяем до тех пор, пока в <code>AL</code> не окажется <code>0x30</code>.</li>
+</ol>
+
+<p>В итоге программа выводит на экран вот такую строку: <code>012345678987654321</code>.</p>
+
+<p>В этой программе есть еще одна новая для тебя инструкция — <code>cmp</code> (CoMPartion — сравнить). Она работает так же, как инструкция вычитания, но с одним значительным отличием: <code>cmp</code> не меняет значение регистра. Она меняет только биты регистра флагов (<code>Flags</code>).</p>
+
+<p>Обычно <code>cmp</code> используется совместно с инструкциями условного перехода, такими как <code>je</code> (Jump if Equal — «прыгнуть, если равно»), <code>jne</code> (Jump if Not Equal — «прыгнуть, если не равно») и подобными.</p>
+
+<div id="toc08." class="toch">&nbsp;</div><h2>Пишем простую игрушку «Угадай число»</h2>
+
+<p>Ну вот, теперь ты знаешь достаточно ассемблерных инструкций, чтобы написать несложную игру «Угадай число».</p>
+
+<p>Как она будет работать? После запуска игры компьютер загадывает число, выводит на экран знак вопроса и ждет ответа игрока. Если число, введенное игроком, отличается от того, которое загадал компьютер, игра снова выводит знак вопроса. Когда игрок наконец угадывает число, программа печатает его на экране и добавляет смайлик (знак двоеточия и закрывающую скобку). Вот ассемблерный код, который воплощает описанную задумку.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/guess.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/guess.png" alt="" width="1200"></a>
+
+<p>Как компьютер загадывает число? Он считывает из порта <code>0x40</code> псевдослучайное число. Этот порт подключен к микросхеме таймера. Таймер без остановки отсчитывает такты процессора. Когда ты считываешь значение с его порта, то каждый раз получаешь псевдослучайное число в диапазоне от <code>0x00</code> до <code>0xFF</code>. Вот и весь секрет.</p>
+
+<p>Теперь небольшой организационный момент. До сих пор, когда нам с тобой нужна была буква, мы задавали ее шестнадцатеричным ASCII-кодом. Но у компилятора NASM есть удобная особенность: ты можешь напечатать любой символ, заключить его в апострофы, и NASM сам преобразует его в ASCII-код.</p>
+
+<p>Давай перепишем нашу игру, воспользовавшись этой особенностью NASM.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/guess-new.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/guess-new.png" alt="" width="1200"></a>
+
+<p>Согласись, так исходный код выглядит куда более читабельно.</p>
+
+<div id="toc09." class="toch">&nbsp;</div><h2>Выводы</h2>
+
+<p>Поздравляю, ты сделал небольшой шаг в освоении ассемблера! Теперь ты можешь создавать на нем небольшие игрушки. Та, которую мы с тобой сделали, занимает всего 70 байт.</p>
+
+<div class="panel default">
+
+<div id="toc09.1" class="toch">&nbsp;</div><h3>Инструкции и операторы</h3>
+
+<p>Если ты знаешь Си, Java или JavaScript, то вот небольшая табличка соответствия между ассемблерными инструкциями, которые ты сегодня освоил, и операторами из этих языков.</p>
+
+<a href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/table.png" target="_blank"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/table.png" alt="" width="420"></a>
+
+</div>
+<p></p>          </div>
+        <style>
+    #xakeprate{max-width: 300px;text-align: center;margin:0 auto 30px;}
+    #xakeprate h3,
+    #xakeprate h4,
+    #xakeprate h5,
+    #xakeprate h6{margin:0 0 8px;}
+    #xakeprate h4{font-size: 13px;}
+    #xakeprate label{cursor:pointer;white-space: nowrap;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+    #xakeprate .block-title{float:left;margin:0 0 5px;}
+    #xakeprate #stars{position:relative;top:-2px;direction:rtl;text-align:center;}
+    #xakeprate #stars input{display:none;}
+    #xakeprate #stars i{color:#ccc;font-size:30px;}
+    #xakeprate #stars label:hover ~ label i,
+    #xakeprate #stars label:hover i{color:#666;}
+    #xakeprate #stars label.checked ~ label i{color:#d20;}
+    #xakeprate #stars input:checked+i{color:#d20!important;}
+    #xakeprate .opinion{display:none;margin:10px auto 0;}
+    #xakeprate .opinion label{display:block;text-align:left;color:#666;margin:0 auto;}
+    #xakeprate .opinion label:hover span{color:#222;}
+    #xakeprate .opinion input:checked+span{color:#d20;font-weight:700;}
+    #xakeprate .opinion input{margin:0 4px 0 10px;}
+    #xakeprate .opinion button{width:120px;margin:10px auto;}
+    #xakeprate .opinion button:disabled{background-color:#ddd!important;}
+  </style>
+  <form id="xakeprate" action="https://xakep.ru/wp-admin/admin-ajax.php" method="post">
+    <input type="hidden" name="action" value="xakeprate">
+    <input type="hidden" name="id" value="312293">
+    <!-- <h4 class="block-title"><span><span>Оцени статью:</span></span></h4> -->
+    <h4>Оцени статью:</h4>
+    <div id="stars">
+      <label>
+        <input type="radio" name="rating" value="5" required="">
+        <i class="fa fa-star"></i>
+      </label><label>
+        <input type="radio" name="rating" value="4" required="">
+        <i class="fa fa-star"></i>
+      </label><label>
+        <input type="radio" name="rating" value="3" required="">
+        <i class="fa fa-star"></i>
+      </label><label>
+        <input type="radio" name="rating" value="2" required="">
+        <i class="fa fa-star"></i>
+      </label><label>
+        <input type="radio" name="rating" value="1" required="">
+        <i class="fa fa-star"></i>
+      </label>    </div>
+    <div id="positive" class="opinion">
+      <h6>Что тебе понравилось больше всего?</h6>
+      <!-- $rate->rating -->
+      <label>
+        <input type="radio" name="opinion" value="clear" required="">
+        <span>Статья легкая и понятная</span>
+      </label><label>
+        <input type="radio" name="opinion" value="detailed" required="">
+        <span>Статья глубокая и подробная</span>
+      </label><label>
+        <input type="radio" name="opinion" value="interest" required="">
+        <span>Интересуюсь этой темой</span>
+      </label><label>
+        <input type="radio" name="opinion" value="actual" required="">
+        <span>Данные новые и актуальные</span>
+      </label><label>
+        <input type="radio" name="opinion" value="nice" required="">
+        <span>Приятный стиль изложения</span>
+      </label>      <button type="submit">Оценить</button>
+    </div>
+    <div id="negative" class="opinion">
+      <h6>Что тебе не понравилось больше всего?</h6>
+      <label>
+        <input type="radio" name="opinion" value="easy" required="">
+        <span>Статья поверхностная</span>
+      </label><label>
+        <input type="radio" name="opinion" value="complex" required="">
+        <span>Статья слишком сложная</span>
+      </label><label>
+        <input type="radio" name="opinion" value="blah" required="">
+        <span>Тема мне не интересна</span>
+      </label><label>
+        <input type="radio" name="opinion" value="outdate" required="">
+        <span>Данные устарели</span>
+      </label><label>
+        <input type="radio" name="opinion" value="ugly" required="">
+        <span>Неприятный стиль изложения</span>
+      </label>      <button type="submit">Оценить</button>
+    </div>
+    <div class="result"></div>
+  </form>
+  <script>jQuery(function($){
+      form = $('#xakeprate');
+      stars = form.find('#stars input');
+      button = form.find('button');
+      result = form.find('.result');
+
+      stars.on('change', function(e){
+        stars.parent().removeClass('checked');
+        $(this).parent().addClass('checked');
+        result.text('');
+        form.find('.opinion input').prop('checked', false);
+        if($(this).val() > 3){
+          form.find('#negative').hide();
+          form.find('#positive').show();
+        }else{
+          form.find('#negative').show();
+          form.find('#positive').hide();
+        }
+      });
+
+      form.on('submit', function(e){
+        e.preventDefault();
+        result.text('');
+        button.text('...');
+        button.prop('disabled', true);
+        $.ajax({
+          type:form.attr('method'), url:form.attr('action'), data:form.serialize()
+        }).done(function(data){
+          result.html(data);
+        }).fail(function(data){
+          console.log(data);
+          result.html('error');
+        }).always(function(data){
+          button.text('Повторить');
+          button.prop('disabled', false);
+        });
+      });
+  });</script>
+          <footer><div class="bdaia-author-box">
+		<div class="authorBlock-avatar">
+			<a href="https://xakep.ru/author/vedacoder/"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/34f6d0055ce2824cb5906cdb7f5d87c0.jpeg" width="150" height="150" alt="Антон Карев" class="avatar avatar-150 wp-user-avatar wp-user-avatar-150 alignnone photo"></a>
+		</div>
+
+		<div class="authorBlock-header">
+			<h3 class="authorBlock-header-title vcard author">
+				<span class="fn"><a href="https://xakep.ru/author/vedacoder/">Антон Карев</a></span>
+			</h3>
+
+			<p class="authorBlock-header-bio">
+				Окончил физтех Алтайского госуниверситета. 20 лет занимаюсь низкоуровневым программированием на Ассемблере и Си. С уклоном в Secure Coding. Провожу в скайпе индивидуальные уроки по программированию на Ассемблере, Си, Питоне. Хочешь пообщаться? Пиши на email: anton.barnaul.1984@mail.ru			</p>
+
+			<div class="authorBlock-meta bdaia-social-io-colored">
+				<div class="bdaia-social-io bdaia-social-io-size-32">
+					
+									</div>
+			</div>
+		</div>
+	</div><!-- END Author Box. --><div class="clear"></div><div id="postbottom" class="tagcloud"><span>Теги:</span><a href="https://xakep.ru/tag/asm/" rel="tag">asm</a><a href="https://xakep.ru/tag/assembler/" rel="tag">assembler</a><a href="https://xakep.ru/tag/vybor-redaktora/" rel="tag">Выбор редактора</a><a href="https://xakep.ru/tag/guides/" rel="tag">Гайды</a><a href="https://xakep.ru/tag/articles/" rel="tag">Статьи</a></div><div class="clear"></div><div class="share_buttons">
+  <div class="share_text">Покажи эту статью друзьям:</div>
+  <div id="ya-share-p312293" data-services="telegram,vkontakte,twitter,facebook,gplus,viber,whatsapp,evernote,pocket" class="share_buttons"></div>
+</div>
+<script type="text/javascript">
+  Ya.share2('ya-share-p312293', {
+    content: {
+      url: "https://xakep.ru/2020/07/08/asm-course-3/",
+      title: "Погружение в ассемблер. Осваиваем арифметические инструкции",
+      image: "https://xakep.ru/wp-content/uploads/2017/09/137096/asm-h.jpg"
+    }
+  });
+</script>
+            <section id="bdCheckAlso" class="bdCheckAlso-right">
+
+	            <h4 class="block-title">
+		            <span>Check Also</span>
+
+		            <a href="https://xakep.ru/2020/07/08/asm-course-3/#" id="check-also-close"><span class="bdaia-io bdaia-io-cross"></span></a>
+	            </h4>
+
+                                    <div class="check-also-post">
+                                                    <figure class="check-also-thumb" style="background-image:url(https://xakep.ru/wp-content/uploads/2022/02/374574/0fcks-h-320x220.jpg);">
+                            </figure>
+                        
+                        <h2 class="post-title"><a href="https://xakep.ru/2022/02/17/bitfinex-hackers-story/" rel="bookmark">Краденые миллиарды и плохой рэп. Как арестовали супругов, которые отмывали деньги Bitfinex и снимали тиктоки</a></h2>
+
+                        <p>У супружеской пары, арестованной в Нью-Йорке, конфисковано 3,6 миллиарда долларов США. Их …</p>
+                    </div>
+                            </section>
+        </footer><div class="bdaia-post-next-prev"><div class="bdaia-post-prev-post"><a href="https://xakep.ru/2020/07/08/keeper-magecart/" rel="prev"><span>← Ранее</span> Группировка Keeper взломала 570 интернет-магазинов</a></div><div class="bdaia-post-next-post"><a href="https://xakep.ru/2020/07/08/thiefquest-decryptor/" rel="next"><span>Далее →</span> Появился бесплатный дешифровщик для файлов, пострадавших от ThiefQuest</a></div></div><!-- END Previous/Next article. --><span style="display: none;" itemprop="author" itemscope="" itemtype="https://schema.org/Person">
+	<meta itemprop="name" content="Антон Карев">
+</span>
+<meta itemprop="interactionCount" content="UserComments:16">
+<meta itemprop="datePublished" content="2020-07-08T12:30:41+00:00">
+<meta itemprop="dateModified" content="2020-07-08T12:30:41+00:00">
+<meta itemscope="" itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="https://xakep.ru/2020/07/08/asm-course-3/">
+<span style="display: none;" itemprop="publisher" itemscope="" itemtype="https://schema.org/Organization">
+	<span style="display: none;" itemprop="logo" itemscope="" itemtype="https://schema.org/ImageObject">
+		<meta itemprop="url" content="https://xakep.ru/wp-content/uploads/2018/09/x-new_6.png">
+	</span>
+	<meta itemprop="name" content="«Хакер»">
+</span>
+<meta itemprop="headline " content="Погружение в ассемблер. Осваиваем арифметические инструкции">
+<span style="display: none;" itemprop="image" itemscope="" itemtype="https://schema.org/ImageObject">
+	<meta itemprop="url" content="https://xakep.ru/wp-content/uploads/2017/09/137096/asm-h.jpg">
+	<meta itemprop="width" content="1600">
+	<meta itemprop="height" content="720">
+</span></article><div class="xakep-ads" id="leaderboard0-desktop" style="display: block;"><!-- /92401962/xa_infinite-scroll-0 --><!-- <div id='div-gpt-ad-1536750214101-0' style='height:300px; width:900px;'><script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1536750214101-0'); });</script></div> --><!-- /92401962/xa_leaderboard0 --><div id="div-gpt-ad-1537366071742-0" style="height:202px; width:728px;"><script>googletag.cmd.push(function() { googletag.display('div-gpt-ad-1537366071742-0'); });</script></div></div><div class="bdaia-load-comments-btn"><a href="https://xakep.ru/2020/07/08/asm-course-3/#comments">16 комментариев<span class="screen-reader-text"> к записи Погружение в ассемблер. Осваиваем арифметические инструкции</span></a></div>    <div class="wpdiscuz_top_clearing"></div>
+    
+    <div id="wpdiscuz-loading-bar" class="wpdiscuz-loading-bar-auth"></div>
+    <div id="wpdiscuz-comment-message" class="wpdiscuz-comment-message-auth"></div>
+    </div>
+
+      </div>
+</div>
+						</div>
+						                        			                        <div class="bdaia-footer">
+	                        
+		<div class="bdaia-footer-widgets" style="background-color:#32393D;">
+		<div class="bd-container">
+			<div class="bdaia-footer-widgets-area footer-col-three">
+
+									<div id="footer-first" class="footer-widget-inner">
+						<div id="bdaia-widget-box1-4" class="widget bdaia-widget bdaia-box1"><h4 class="block-title"><span>Последние взломы</span></h4><div class="widget-inner">
+		<div class="bdaia-wb-wrap bdaia-wb1 bdaia-wb-idOxX0f bdaia-ajax-pagination-" data-box_nu="wb1" data-box_id="bdaia-wb-idOxX0f" data-paged="1" data-sort_order="" data-ajax_pagination="" data-num_posts="4" data-tag_slug="articles" data-cat_uid="4927" data-cat_uids="" data-max_nu="270" data-total_posts_num="1079" data-posts="" data-com_meta="" data-thumbnail="" data-author_meta="" data-date_meta="true" data-review="">
+
+			<div class="bdaia-wb-content">
+				<div class="bdaia-wb-inner">
+					
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="https://xakep.ru/2022/02/17/bitfinex-hackers-story/"><img width="104" height="74" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/0fcks-h-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" loading="lazy"></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title">
+							<a href="https://xakep.ru/2022/02/17/bitfinex-hackers-story/"><span>Краденые миллиарды и плохой рэп. Как арестовали супругов, которые отмывали деньги Bitfinex и снимали тиктоки</span></a>
+						</h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">4 дня назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="https://xakep.ru/2022/02/14/htb-earlyaccess/"><img width="104" height="74" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/earlyaccess-h-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" loading="lazy"></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title">
+							<a href="https://xakep.ru/2022/02/14/htb-earlyaccess/"><span>HTB EarlyAccess. Эксплуатируем веб-уязвимости и мисконфиги Docker</span></a>
+						</h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">7 дней назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="https://xakep.ru/2022/02/07/htb-horizontall/"><img width="104" height="74" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/horizontall-h-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" loading="lazy"></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title">
+							<a href="https://xakep.ru/2022/02/07/htb-horizontall/"><span>HTB Horizontall. Захватываем веб-сервер через уязвимости в Strapi и Laravel</span></a>
+						</h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">2 недели назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="https://xakep.ru/2022/02/03/p-code-reverse/"><img width="104" height="74" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/reverse-h-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" loading="lazy"></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title">
+							<a href="https://xakep.ru/2022/02/03/p-code-reverse/"><span>Препарируем P-Code. Как реверсить старый софт на Visual Basic</span></a>
+						</h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">3 недели назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+						</div>
+				<div class="bdayh-posts-load-wait">
+					<div class="sk-circle"><div class="sk-circle1 sk-child"></div><div class="sk-circle2 sk-child"></div><div class="sk-circle3 sk-child"></div><div class="sk-circle4 sk-child"></div><div class="sk-circle5 sk-child"></div><div class="sk-circle6 sk-child"></div><div class="sk-circle7 sk-child"></div><div class="sk-circle8 sk-child"></div><div class="sk-circle9 sk-child"></div><div class="sk-circle10 sk-child"></div><div class="sk-circle11 sk-child"></div><div class="sk-circle12 sk-child"></div></div>
+				</div>
+			</div>
+
+					</div>
+
+		</div></div>					</div>
+				
+									<div id="footer-second" class="footer-widget-inner">
+						<div id="bdaia-widget-box1-3" class="widget bdaia-widget bdaia-box1"><h4 class="block-title"><span>Компьютерные трюки</span></h4><div class="widget-inner">
+		<div class="bdaia-wb-wrap bdaia-wb1 bdaia-wb-idQtaLA bdaia-ajax-pagination-" data-box_nu="wb1" data-box_id="bdaia-wb-idQtaLA" data-paged="1" data-sort_order="" data-ajax_pagination="" data-num_posts="4" data-tag_slug="articles" data-cat_uid="4926" data-cat_uids="" data-max_nu="147" data-total_posts_num="587" data-posts="" data-com_meta="" data-thumbnail="" data-author_meta="" data-date_meta="true" data-review="">
+
+			<div class="bdaia-wb-content">
+				<div class="bdaia-wb-inner">
+					
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="https://xakep.ru/2022/02/16/terminal-tricks/"><img width="104" height="74" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/rocket-h-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" loading="lazy"></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title">
+							<a href="https://xakep.ru/2022/02/16/terminal-tricks/"><span>Терминальное счастье. Колонка главреда</span></a>
+						</h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">5 дней назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="https://xakep.ru/2022/02/15/terminal-anatomy/"><img width="104" height="74" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/terminal-h-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" loading="lazy"></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title">
+							<a href="https://xakep.ru/2022/02/15/terminal-anatomy/"><span>Анатомия терминала. Осваиваем текстуальную графику</span></a>
+						</h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">6 дней назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="https://xakep.ru/2022/02/02/android-diy-alarm/"><img width="104" height="74" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/snake-quard-h-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" loading="lazy"></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title">
+							<a href="https://xakep.ru/2022/02/02/android-diy-alarm/"><span>Змей-стражник. Сигнализация для велосипеда из старого смартфона на Android</span></a>
+						</h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">3 недели назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+		
+		<div class="bdaia-wb-article bdaia-wba-small bdaiaFadeIn">
+			<article class="with-thumb">
+
+									<div class="bwb-article-img-container">
+													<a href="https://xakep.ru/2022/01/28/apple-m1-test/"><img width="104" height="74" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/AppleM1-h-104x74.jpg" class="attachment-bdaia-small size-bdaia-small wp-post-image" alt="" loading="lazy"></a>
+											</div>
+				
+				<div class="bwb-article-content-wrapper">
+					<header>
+						<h3 class="entry-title">
+							<a href="https://xakep.ru/2022/01/28/apple-m1-test/"><span>M1 для хакера. Тестируем Homebrew, виртуалки, Docker и Node на новой архитектуре Apple</span></a>
+						</h3>
+					</header>
+
+					<footer>
+						
+							
+															<div class="bdaia-post-date"><span class="bdayh-date">3 недели назад</span></div>
+							
+							
+											</footer>
+				</div>
+			</article>
+		</div>
+
+						</div>
+				<div class="bdayh-posts-load-wait">
+					<div class="sk-circle"><div class="sk-circle1 sk-child"></div><div class="sk-circle2 sk-child"></div><div class="sk-circle3 sk-child"></div><div class="sk-circle4 sk-child"></div><div class="sk-circle5 sk-child"></div><div class="sk-circle6 sk-child"></div><div class="sk-circle7 sk-child"></div><div class="sk-circle8 sk-child"></div><div class="sk-circle9 sk-child"></div><div class="sk-circle10 sk-child"></div><div class="sk-circle11 sk-child"></div><div class="sk-circle12 sk-child"></div></div>
+				</div>
+			</div>
+
+					</div>
+
+		</div></div>					</div>
+				
+									<div id="footer-third" class="footer-widget-inner">
+						<div id="bdaia-widget-timeline-2" class="widget-odd widget-last widget-first widget-1 widget bdaia-widget bdaia-widget-timeline">
+<h4 class="block-title"><span>Свежие новости</span></h4>
+<div class="widget-inner">
+			<ul>
+				<li><a href="https://xakep.ru/2022/02/18/second-rce-in-magento-adobe-commerce/">
+						<span class="bdayh-date">2 дня назад</span>						<h3>Для критической уязвимости в Magento появился эксплоит, а Adobe исправила второй аналогичный баг</h3>
+					</a></li><li><a href="https://xakep.ru/2022/02/18/esa-dos/">
+						<span class="bdayh-date">2 дня назад</span>						<h3>Вредоносные письма могут вывести Cisco Email Security Appliance из строя</h3>
+					</a></li><li><a href="https://xakep.ru/2022/02/18/updraftplus/">
+						<span class="bdayh-date">2 дня назад</span>						<h3>WordPress-плагин с 3 000 000 установок позволял всем желающим скачивать бэкапы сайтов</h3>
+					</a></li><li><a href="https://xakep.ru/2022/02/18/jammer-fail/">
+						<span class="bdayh-date">3 дня назад</span>						<h3>Француз случайно оставил без интернета целый город, пытаясь отключить интернет своим детям</h3>
+					</a></li><li><a href="https://xakep.ru/2022/02/18/chrome-os-flex/">
+						<span class="bdayh-date">3 дня назад</span>						<h3>Google представила «легкую» Chrome OS Flex, подходящую для старых ПК</h3>
+					</a></li>			</ul>
+		</div>
+</div>					</div>
+				
+				
+			</div>
+		</div>
+	</div><!--Widgets/-->
+
+	                        	                        <div class="bdaia-footer-area" style="background-color:#23282D;">
+		                        <div class="bd-container" style="font-size:13px">
+
+															<div class="footer-col-two">
+															  <div class="footer-widget-inner">
+															         Вопросы по&nbsp;материалам и подписке: <a href="mailto:support@glc.ru">support@glc.ru</a>
+															    <br>Отдел рекламы и&nbsp;спецпроектов: <a href="mailto:yakovleva.a@glc.ru">yakovleva.a@glc.ru</a>
+															    <br>Контент&nbsp;<strong>18+</strong>
+                                  <br><br>
+                                  <div style="font-size:95%"><a href="https://qrator.net/ru/" target="_blank" rel="nofollow"><img src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/300px-Qrator_LOGO.png" width="100" alt="Qrator" style="float:left;margin: 0 10px 0 0"></a> Сайт защищен Qrator&nbsp;—<br>самой забойной защитой от&nbsp;DDoS в&nbsp;мире</div>
+															  </div>
+															  <div class="footer-widget-inner" style="text-align:right">
+															         <a href="https://xakep.ru/about/">Подписка для физлиц</a>
+                                  <br><a href="https://xakep.ru/corporate/">Подписка для юрлиц</a>
+															    <br><a href="https://xakep.ru/advert/">Реклама на «Хакере»</a>
+                                  <!-- <br/><a href="/offer/">Авторский договор</a> -->
+															    <br><a href="https://xakep.ru/contact/">Контакты</a>
+                                  															  </div>
+															</div>
+
+		                        </div>
+	                        </div>
+                        </div><!--.bdaia-footer/-->
+                    </div>
+                </div>
+            </div><!-- #page/-->
+        </div><!-- .page-outer/-->
+        <div style="display: none;" id="nxsFavNotice"><div id="nxsFavNoticeCnt">Posting....</div></div><a href="javascript:void(0);" id="wpdUserContentInfoAnchor" style="display:none;" rel="#wpdUserContentInfo" data-wpd-lity="">wpDiscuz</a><div id="wpdUserContentInfo" style="overflow:auto;background:#FDFDF6;padding:20px;width:600px;max-width:100%;border-radius:6px;" class="lity-hide"></div><div id="wpd-editor-source-code-wrapper-bg"></div><div id="wpd-editor-source-code-wrapper"><textarea id="wpd-editor-source-code"></textarea><button id="wpd-insert-source-code">Insert</button><input type="hidden" id="wpd-editor-uid"></div><div id="reading-position-indicator"></div>
+<script>
+    </script><link rel="stylesheet" id="modal-css" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/jquery.modal.min.css" type="text/css" media="all">
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/widget-ajax.js.Без названия" id="woohoo-wboxs-ajax-js-js"></script>
+<script type="text/javascript" id="woohoo-post-like-js-extra">
+/* <![CDATA[ */
+var ajax_var = {"url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","nonce":"8977f03529"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/post-like.js.Без названия" id="woohoo-post-like-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/blocks.js.Без названия" id="woohoo_blocks_ajax_js-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/prettify.js.Без названия" id="prettify-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-css.js.Без названия" id="prettify-css-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-sql.js.Без названия" id="prettify-sql-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-yaml.js.Без названия" id="prettify-yaml-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-vb.js.Без названия" id="prettify-vb-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-clj.js.Без названия" id="prettify-clj-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-erlang.js.Без названия" id="prettify-erlang-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-go.js.Без названия" id="prettify-go-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-hs.js.Без названия" id="prettify-hs-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-lua.js.Без названия" id="prettify-lua-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-lisp.js.Без названия" id="prettify-lisp-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-dart.js.Без названия" id="prettify-dart-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-pascal.js.Без названия" id="prettify-pascal-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/lang-r.js.Без названия" id="prettify-r-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/load.js.Без названия" id="prettify-load-js"></script>
+<script type="text/javascript" id="wp-polls-js-extra">
+/* <![CDATA[ */
+var pollsL10n = {"ajax_url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","text_wait":"\u0412\u0430\u0448 \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0438\u0439 \u0437\u0430\u043f\u0440\u043e\u0441 \u0435\u0449\u0435 \u043e\u0431\u0440\u0430\u0431\u0430\u0442\u044b\u0432\u0430\u0435\u0442\u0441\u044f. \u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430 \u043f\u043e\u0434\u043e\u0436\u0434\u0438\u0442\u0435 ...","text_valid":"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430 \u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u043e \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043e\u0442\u0432\u0435\u0442.","text_multiple":"\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e \u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u043e\u0435 \u0447\u0438\u0441\u043b\u043e \u0432\u0430\u0440\u0438\u0430\u043d\u0442\u043e\u0432:","show_loading":"1","show_fading":"0"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/polls-js.js.Без названия" id="wp-polls-js"></script>
+<script type="text/javascript" id="wpdiscuz-combo-js-js-extra">
+/* <![CDATA[ */
+var wpdiscuzAjaxObj = {"wc_hide_replies_text":"\u0421\u043f\u0440\u044f\u0442\u0430\u0442\u044c \u043e\u0442\u0432\u0435\u0442\u044b","wc_show_replies_text":"\u041f\u0440\u043e\u0441\u043c\u043e\u0442\u0440 \u043e\u0442\u0432\u0435\u0442\u043e\u0432","wc_msg_required_fields":"\u0417\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u043f\u043e\u043b\u044f","wc_invalid_field":"\u041d\u0435\u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043f\u043e\u043b\u044f \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u044b \u043d\u0435\u0432\u0435\u0440\u043d\u043e","wc_error_empty_text":"\u043f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u0437\u0430\u043f\u043e\u043b\u043d\u0438\u0442\u0435 \u044d\u0442\u043e \u043f\u043e\u043b\u0435, \u0447\u0442\u043e\u0431\u044b \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c","wc_error_url_text":"url \u043d\u0435\u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439","wc_error_email_text":"\u0430\u0434\u0440\u0435\u0441 \u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439 \u043f\u043e\u0447\u0442\u044b \u043d\u0435\u0432\u0435\u0440\u0435\u043d","wc_invalid_captcha":"\u041d\u0435\u0432\u0435\u0440\u043d\u043e \u0432\u0432\u0435\u0434\u0435\u043d \u043a\u043e\u0434","wc_login_to_vote":"\u0412\u044b \u0434\u043e\u043b\u0436\u043d\u044b \u0432\u043e\u0439\u0442\u0438 , \u0447\u0442\u043e\u0431\u044b \u043f\u0440\u043e\u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u0442\u044c","wc_deny_voting_from_same_ip":"\u0412\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442\u0435 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u0442\u044c \u0437\u0430 \u044d\u0442\u043e\u0442 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439","wc_self_vote":"\u0412\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442\u0435 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u0442\u044c \u0437\u0430 \u0441\u0432\u043e\u0439 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439","wc_vote_only_one_time":"\u0412\u044b \u0443\u0436\u0435 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u043b\u0438 \u0437\u0430 \u044d\u0442\u043e\u0442 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439","wc_voting_error":"\u041e\u0448\u0438\u0431\u043a\u0430 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u043d\u0438\u044f","wc_comment_edit_not_possible":"\u0418\u0437\u0432\u0438\u043d\u0438\u0442\u0435, \u044d\u0442\u043e\u0442 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439 \u0431\u043e\u043b\u044c\u0448\u0435 \u043d\u0435\u043b\u044c\u0437\u044f \u0440\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u0442\u044c","wc_comment_not_updated":"\u0418\u0437\u0432\u0438\u043d\u0438\u0442\u0435, \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439 \u043d\u0435 \u0431\u044b\u043b \u043e\u0431\u043d\u043e\u0432\u043b\u0435\u043d","wc_comment_not_edited":"\u0412\u044b \u043d\u0435 \u0441\u0434\u0435\u043b\u0430\u043b\u0438 \u043d\u0438\u043a\u0430\u043a\u0438\u0445 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0439","wc_msg_input_min_length":"\u0412\u0432\u043e\u0434 \u0441\u043b\u0438\u0448\u043a\u043e\u043c \u043a\u043e\u0440\u043e\u0442\u043a\u0438\u0439","wc_msg_input_max_length":"\u0412\u0432\u043e\u0434 \u0441\u043b\u0438\u0448\u043a\u043e\u043c \u0434\u043b\u0438\u043d\u043d\u044b\u0439","wc_spoiler_title":"\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435 \u0441\u043f\u043e\u0439\u043b\u0435\u0440\u0430","wc_cannot_rate_again":"\u0412\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442\u0435 \u0441\u043d\u043e\u0432\u0430 \u043e\u0446\u0435\u043d\u0438\u0442\u044c","wc_not_allowed_to_rate":"\u0412\u0430\u043c \u043d\u0435 \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u043e \u0441\u0442\u0430\u0432\u0438\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u043e\u0446\u0435\u043d\u043a\u0443","wc_follow_user":"\u041f\u043e\u0434\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043d\u0430 \u044d\u0442\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f","wc_unfollow_user":"\u041e\u0442\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043e\u0442 \u044d\u0442\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f","wc_follow_success":"\u0412\u044b \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u043b\u0438\u0441\u044c \u043d\u0430 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438 \u044d\u0442\u043e\u0433\u043e \u0430\u0432\u0442\u043e\u0440\u0430","wc_follow_canceled":"\u0412\u044b \u043f\u0440\u0438\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u043b\u0438 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443 \u043d\u0430 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438 \u044d\u0442\u043e\u0433\u043e \u0430\u0432\u0442\u043e\u0440\u0430.","wc_follow_email_confirm":"\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u0441\u0432\u043e\u0439 email \u0438 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0435 \u0437\u0430\u043f\u0440\u043e\u0441 \u043d\u0430 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443.","wc_follow_email_confirm_fail":"\u041e\u0447\u0435\u043d\u044c \u0436\u0430\u043b\u044c, \u043d\u043e \u043c\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u043c \u043e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c \u043f\u0438\u0441\u044c\u043c\u043e \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f.","wc_follow_login_to_follow":"\u0410\u0432\u0442\u043e\u0440\u0438\u0437\u0443\u0439\u0442\u0435\u0441\u044c \u0447\u0442\u043e\u0431\u044b \u043f\u043e\u0434\u043f\u0438\u0441\u044b\u0432\u0430\u0442\u044c\u0441\u044f \u043d\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439.","wc_follow_impossible":"\u041e\u0447\u0435\u043d\u044c \u0436\u0430\u043b\u044c, \u043d\u043e \u0432\u044b \u043d\u0435 \u043c\u043e\u0436\u0435\u0442\u0435 \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043d\u0430 \u044d\u0442\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f.","wc_follow_not_added":"\u041f\u043e\u0434\u043f\u0438\u0441\u0430\u0442\u044c\u0441\u044f \u043d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c. \u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043f\u043e\u0437\u0436\u0435.","is_user_logged_in":"1","commentListLoadType":"0","commentListUpdateType":"0","commentListUpdateTimer":"30","liveUpdateGuests":"0","wordpressThreadCommentsDepth":"10","wordpressIsPaginate":"","commentTextMaxLength":"0","replyTextMaxLength":"0","commentTextMinLength":"1","replyTextMinLength":"1","storeCommenterData":"100000","socialLoginAgreementCheckbox":"1","enableFbLogin":"0","fbUseOAuth2":"0","enableFbShare":"0","facebookAppID":"","facebookUseOAuth2":"0","enableGoogleLogin":"0","googleClientID":"","googleClientSecret":"","cookiehash":"95a2ce14874d444647baa643165aaf19","isLoadOnlyParentComments":"0","scrollToComment":"1","commentFormView":"collapsed","enableDropAnimation":"1","isNativeAjaxEnabled":"1","enableBubble":"0","bubbleLiveUpdate":"0","bubbleHintTimeout":"600","bubbleHintHideTimeout":"10","cookieHideBubbleHint":"wpdiscuz_hide_bubble_hint","bubbleShowNewCommentMessage":"0","bubbleLocation":"content_left","firstLoadWithAjax":"1","wc_copied_to_clipboard":"\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d \u0432 \u0431\u0443\u0444\u0435\u0440 \u043e\u0431\u043c\u0435\u043d\u0430.","inlineFeedbackAttractionType":"blink","loadRichEditor":"1","wpDiscuzReCaptchaSK":"6LddLaYZAAAAAKCc3QwxZAcV2RLOhR09NcYPSlZH","wpDiscuzReCaptchaTheme":"light","wpDiscuzReCaptchaVersion":"2.0","wc_captcha_show_for_guest":"1","wc_captcha_show_for_members":"0","wpDiscuzIsShowOnSubscribeForm":"0","wmuEnabled":"0","wmuInput":"wmu_files","wmuMaxFileCount":"1","wmuMaxFileSize":"2097152","wmuPostMaxSize":"529530880","wmuIsLightbox":"1","wmuMimeTypes":{"jpg":"image\/jpeg","jpeg":"image\/jpeg","jpe":"image\/jpeg","gif":"image\/gif","png":"image\/png"},"wmuPhraseConfirmDelete":"\u0412\u044b \u0443\u0432\u0435\u0440\u0435\u043d\u044b, \u0447\u0442\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043b\u0438\u0442\u044c \u044d\u0442\u043e \u0432\u043b\u043e\u0436\u0435\u043d\u0438\u0435?","wmuPhraseNotAllowedFile":"\u041d\u0435\u0434\u043e\u043f\u0443\u0441\u0442\u0438\u043c\u044b\u0439 \u0442\u0438\u043f \u0444\u0430\u0439\u043b\u0430","wmuPhraseMaxFileCount":"\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u043e\u0435 \u043a\u043e\u043b\u0438\u0447\u0435\u0441\u0442\u0432\u043e \u0437\u0430\u0433\u0440\u0443\u0436\u0430\u0435\u043c\u044b\u0445 \u0444\u0430\u0439\u043b\u043e\u0432 1","wmuPhraseMaxFileSize":"\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u044b\u0439 \u0440\u0430\u0437\u043c\u0435\u0440 \u0437\u0430\u0433\u0440\u0443\u0436\u0430\u0435\u043c\u043e\u0433\u043e \u0444\u0430\u0439\u043b\u0430 2MB","wmuPhrasePostMaxSize":"\u041c\u0430\u043a\u0441\u0438\u043c\u0430\u043b\u044c\u043d\u044b\u0439 \u0440\u0430\u0437\u043c\u0435\u0440 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u044f 505MB","msgEmptyFile":"File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.","msgPostIdNotExists":"ID \u0437\u0430\u043f\u0438\u0441\u0438 \u043d\u0435 \u0441\u0443\u0449\u0435\u0441\u0442\u0432\u0443\u0435\u0442","msgUploadingNotAllowed":"\u0418\u0437\u0432\u0438\u043d\u0438\u0442\u0435, \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u0434\u043b\u044f \u044d\u0442\u043e\u0433\u043e \u043f\u043e\u0441\u0442\u0430 \u0437\u0430\u043f\u0440\u0435\u0449\u0435\u043d\u0430","msgPermissionDenied":"\u0423 \u0432\u0430\u0441 \u043d\u0435\u0434\u043e\u0441\u0442\u0430\u0442\u043e\u0447\u043d\u043e \u043f\u0440\u0430\u0432 \u0434\u043b\u044f \u0432\u044b\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u044f \u044d\u0442\u043e\u0433\u043e \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f","wmuKeyImages":"images","wmuSingleImageWidth":"auto","wmuSingleImageHeight":"200","version":"7.3.12","wc_post_id":"312293","isCookiesEnabled":"1","loadLastCommentId":"0","dataFilterCallbacks":[],"phraseFilters":[],"scrollSize":"32","is_email_field_required":"1","url":"https:\/\/xakep.ru\/wp-admin\/admin-ajax.php","customAjaxUrl":"https:\/\/xakep.ru\/wp-content\/plugins\/wpdiscuz\/utils\/ajax\/wpdiscuz-ajax.php","bubbleUpdateUrl":"https:\/\/xakep.ru\/wp-json\/wpdiscuz\/v1\/update","restNonce":"ab95df922b","validateNonceForGuests":""};
+var wpdiscuzUCObj = {"msgConfirmDeleteComment":"\u0412\u044b \u0445\u043e\u0442\u0438\u0442\u0435 \u0443\u0434\u0430\u043b\u0438\u0442\u044c \u044d\u0442\u043e\u0442 \u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0439?","msgConfirmCancelSubscription":"\u0412\u044b \u0445\u043e\u0442\u0438\u0442\u0435 \u043e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u044d\u0442\u0443 \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443?","msgConfirmCancelFollow":"\u0423\u0432\u0435\u0440\u0435\u043d\u044b, \u0447\u0442\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u043e\u0442\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0434\u043f\u0438\u0441\u043a\u0443?","additionalTab":"0"};
+/* ]]> */
+</script>
+<script type="text/javascript" id="wpdiscuz-combo-js-js-before">
+        var wpdiscuzEditorOptions = {
+        modules: {
+        toolbar: "",
+        counter: {
+        uniqueID: "",
+        commentmaxcount : 0,
+        replymaxcount : 0,
+        commentmincount : 1,
+        replymincount : 1,
+        },
+                },
+        wc_be_the_first_text: "\u041f\u043e\u0434\u0435\u043b\u0438\u0442\u0435\u0441\u044c \u0441\u0432\u043e\u0438\u043c \u043c\u043d\u0435\u043d\u0438\u0435\u043c",
+        wc_comment_join_text: "\u041f\u0440\u0438\u0441\u043e\u0435\u0434\u0438\u043d\u0438\u0442\u044c\u0441\u044f \u043a \u043e\u0431\u0441\u0443\u0436\u0434\u0435\u043d\u0438\u044e",
+        theme: 'snow',
+        debug: 'error'
+        };
+        
+</script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/wpdiscuz-combo.min.js.Без названия" id="wpdiscuz-combo-js-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/matchMedia.js.Без названия" id="woohoo-match-media-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/matchMedia.addListener.js.Без названия" id="woohoo-match-media-add-listener-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/jquery.placeholder.js.Без названия" id="woohoo-placeholder-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/theia-sticky.js.Без названия" id="woohoo-theia-sticky-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/enquire.min.js.Без названия" id="woohoo-enquire-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/min.js.Без названия" id="woohoo-min-js"></script>
+<script type="text/javascript" id="woohoo-main-js-extra">
+/* <![CDATA[ */
+var bd = "{\"is_singular\":true,\"bd_lazyload\":false,\"mobile_topmenu\":false,\"sticky_sidebar\":false,\"post_reading_position_indicator\":\"1\"}";
+/* ]]> */
+</script>
+<script type="text/javascript" async="async" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/main.js.Без названия" id="woohoo-main-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/comment-reply.min.js.Без названия" id="comment-reply-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/wp-embed.min.js.Без названия" id="wp-embed-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/jquery.modal.min.js.Без названия" id="modal-js"></script>
+<script type="text/javascript" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/search.js.Без названия" id="bd-search-js"></script>
+  <link rel="stylesheet" href="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/tablesaw.css">
+  <script src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/tablesaw.jquery.js.Без названия"></script>
+  <script src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/tablesaw-init.js.Без названия"></script>
+
+<script type="text/javascript">(function($){
+  console.log("$$$$$$$$$$$$$ $$$$$$$$$$$$$\n          $$$ $$$\n          $$$ $$$  $$$$$$$$$$$$$ $$$     $$$  $$$$$$$$$$$$$ $$$$$$$$$$$$$\n                   $$$       $$$ $$$     $$$  $$$$$$$       $$$       $$$\n          $$$ $$$  $$$$$$$$$$$$$ $$$$$$$$$$$$ $$$           $$$$$$$$$$$$$\n          $$$ $$$  $$$       $$$ $$$      $$$ $$$$$$$$$$$$$ $$$\n$$$$$$$$$$$$$ $$$$$$$$$$$$$\n\nХочешь прославиться, заработать и иметь бесплатную подписку? Пиши в «Хакер»!\nПодробнее: https://xakep.ru/new-authors/");
+  $('article.xmd figure:not(.video)').each(function(){
+    if($(this).find('a').length == 0){
+      var img = $(this).find('img').attr('src');
+      $(this).wrapInner('<a href="'+img+'" target=_blank class="foobox"></a>');
+    }
+  });
+  $('.bdaia-post-content>pre').addClass('prettyprint');
+  $('.wp-polls-form .wp-polls-ul input').on('change', function(){$(this).parents('form').find('input[name=vote]').click();})
+  $.each($('#bookmark'), function(i, el){
+    var bookmark = $(el);
+    var pid = bookmark.data('pid');
+    $.get('/wp-admin/admin-ajax.php?action=xakep_bookmark&pid='+pid, function(res){
+      bookmark.html(res);
+    });
+    bookmark.on('click', function(){
+      $.get('/wp-admin/admin-ajax.php?action=xakep_bookmark&set=book&pid='+pid, function(res){
+        bookmark.html(res);
+      });
+    });
+  });
+}(jQuery));</script>
+<div style="position:fixed;left:-9999px;bottom:-9999px;opacity:0">
+  <!-- Код тега ремаркетинга Google -->
+  <script type="text/javascript">
+      /* <![CDATA[ */
+      var google_conversion_id = 943782719;
+      var google_custom_params = window.google_tag_params;
+      var google_remarketing_only = true;
+      /* ]]> */
+  </script>
+  
+  <noscript>
+      <div style="display:inline;">
+         <img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/943782719/?value=0&amp;guid=ON&amp;script=0"/>
+      </div>
+  </noscript>
+
+</div>
+    
+<div id="cboxOverlay" style="display: none;"></div><div id="colorbox" class="" role="dialog" tabindex="-1" style="display: none;"><div id="cboxWrapper"><div><div id="cboxTopLeft" style="float: left;"></div><div id="cboxTopCenter" style="float: left;"></div><div id="cboxTopRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxMiddleLeft" style="float: left;"></div><div id="cboxContent" style="float: left;"><div id="cboxTitle" style="float: left;"></div><div id="cboxCurrent" style="float: left;"></div><button type="button" id="cboxPrevious"></button><button type="button" id="cboxNext"></button><button type="button" id="cboxSlideshow"></button><div id="cboxLoadingOverlay" style="float: left;"></div><div id="cboxLoadingGraphic" style="float: left;"></div></div><div id="cboxMiddleRight" style="float: left;"></div></div><div style="clear: left;"><div id="cboxBottomLeft" style="float: left;"></div><div id="cboxBottomCenter" style="float: left;"></div><div id="cboxBottomRight" style="float: left;"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none; max-width: none;"></div></div><iframe style="display: none;" src="./1_03 Погружение в ассемблер. Осваиваем арифметические инструкции — «Хакер»_files/saved_resource.html"></iframe><hv-copy-modal></hv-copy-modal><div> </div><vmaker-container style="position: fixed; top: 0px; right: 0px; z-index: 99999999; width: 100%; height: 100%; pointer-events: none; user-select: none;"><style>
+          @font-face {
+            font-family: 'VM-Poppins';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Poppins-Light.ttf) format('truetype');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+          }
+          @font-face {
+            font-family: 'VM-Poppins';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Poppins-Regular.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+          }
+          @font-face {
+            font-family: 'VM-Poppins';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Poppins-Medium.ttf) format('truetype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+          }
+          @font-face {
+            font-family: 'VM-Poppins';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Poppins-SemiBold.ttf) format('truetype');
+            font-weight: 600;
+            font-style: normal;
+            font-display: swap;
+          }
+          @font-face {
+            font-family: 'VM-Poppins';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Poppins-Bold.ttf) format('truetype');
+            font-weight: 700;
+            font-style: normal;
+            font-display: swap;
+          }
+          @font-face {
+            font-family: 'VM-Allerta';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Allerta-Regular.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+          @font-face {
+            font-family: 'VM-Charmonman';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Charmonman-Regular.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+          @font-face {
+            font-family: 'VM-Comic Neue';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/ComicNeue-Regular.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+          @font-face {
+            font-family: 'VM-Open Sans';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/OpenSans-Regular.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+          @font-face {
+            font-family: 'VM-Poiret One';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/PoiretOne-Regular.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+          @font-face {
+            font-family: 'VM-Signpainter';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Sign Painter Regular.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+          @font-face {
+            font-family: 'VM-Futura';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Futura Light font.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+          @font-face {
+            font-family: 'VM-Barlow';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/Barlow-Regular.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+          @font-face {
+            font-family: 'VM-Norwester';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/norwester.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+          @font-face {
+            font-family: 'VM-Europa';
+            src: url(chrome-extension://bjibimlhliikdlklncdgkpdmgkpieplj/static/media/europa.ttf) format('truetype');
+            font-weight: 400;
+            font-style: normal;
+            font-display: auto;
+          }
+        </style></vmaker-container></body></html>
